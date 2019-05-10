@@ -1,0 +1,96 @@
+﻿Notes: 
+
+Shows two player text and selected player indication: https://www.youtube.com/watch?v=7VdNEpE29vQ
+After the rocket ship lands, the bottom two rows of invaders do not shoot (only tested on game 1)
+
+
+RESEARCH:
+	09/05
+	Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
+
+
+Features (Summary):
+
+* UI
+  - Quit Game?
+
+* Invaders movement speed-up
+  - As the number of Invaders reduces, speed-up the movement
+  - As the number of Invaders reduces, speed-up the animation
+  - As the number of Invaders reduces, speed-up the firing rate
+
+* Audio
+  - Player explosion
+  - Invader explosion - additional effect when the last invader is destroyed
+  - Invader movement - tempo increases as invader count reduces
+  - command ship explosion - slightly different sound
+  - Command Ship flying - pitch changes for descent/ascent on play abduction
+
+  - menu button click/tap
+
+
+BUGS:
+	02/05
+	* BUG #15: If the CommandShip appears near the end of a wave and is destroyed, the abduction sequence begins with the CommandShip in its dying animation
+			   and subsequently it disappears.  Need to consider either preventing the CommandShip from spawning when there are only a few invaders left, or
+			   left the CommandShip fly off the screen before it comes back for the abduction.
+
+
+FEATURES:
+
+	03/03
+	* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
+
+	09/05
+	* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
+
+	* FEATURE #7: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
+					finally when the count reaches 1
+					Need to research speed increases - consider recording video and using playback speed to calculate rate?
+
+	* FEATURE #8: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+
+	* FEATURE #9: Quit game (System Reset - darker brown)
+
+COMPLETED:
+
+	25/03
+	* BUG #10: The event which is triggered when the MotherShip descends is, by design, no longer raised once the MotherShip has landed, however, this event is being 
+			   used to determine when to spawn the next InvaderFormation. 
+			 T  he result of this is that no further InvaderFormations are spawned once the MotherShip has landed.
+
+	27/03
+	* BUG #4: Under a certain circumstance the InvaderFormation marches off the screen.  I think this is where the left/right most invader is destroyed, it 
+		      plays the Destroyed animation and turns off the collider, I think this may be allowing the InvaderFormation to step over/passed the boundary which
+		      would ordinarily send it moving in the opposite direction.  Needs testing.
+
+	28/03
+	* BUG #12: **Research** Does the player get respawned at a specific spawn position every life, or just where they were when they died?
+
+	03/04
+	* BUG #5: The rate of fire for invaders increases as they get closer to the planet as the only thing controlling when they can shoot next is whether a 
+		    projectile is currently in play.  A minimum firing rate needs to be considered also.
+
+	* BUG #11: Determine both Game Over conditions (out of lives / invaders landed) - break down what should happen under each condition, determine how to support both
+			   with a tidy end game / ui
+
+	06/04
+	* FEATURE #3: Consider create a separate class for each event handler, deriving from a base class, which handles EventArgs.
+				  All EventHandlers can then send references to sender and any arguments required.
+
+	12/04
+	* BUG #13: Player needs to be repositioned at its spawn point when mothership has completed its descent. Need to check whether this is the case after
+			each wave is destroyed after the mothership has completed descended too.
+
+	18/04
+	* FEATURE #2: The CommandShip doesn't need to be "destroyed" when it reaches the shredder or is shot.  It could just reposition back off screen.  Instead of
+				  randomising the spawning, I could just randomise when it moves. This would safe destroy/instantiating and object.
+
+	24/04
+	* FEATURE #4: Before start is pressed, the planet has "Space Invaders*" in the centre, with the scrolling text stating "(C) Copyright Atari 1980.  * Indicates TM of Taito America Corp."
+
+	29/04
+	* BUG #14: Replace all hard coded values across all classes with a reference to their property within the configuration class
+
+	02/05
+	* FEATURE #5: At the end of the 8th wave, the CommandShip comes down and takes your ship, need to check respawn position and any other effects of this feature (e.g. extra life?)

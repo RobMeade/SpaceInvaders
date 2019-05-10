@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2174549308362209919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2174549308362209857}
+  - component: {fileID: 2174549308362209856}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2174549308362209857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174549308362209919}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2174549308362209856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2174549308362209919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132fba9f4ecc4ff43858cfca168ccfbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _configuration: {fileID: 11400000, guid: 8b05740596c70f245bb3b4b593da35d7, type: 2}
+  _games:
+  - {fileID: 11400000, guid: 6f6009748a7a0544da9f31afd68d2c2b, type: 2}
+  - {fileID: 11400000, guid: 0c9370ba6f737bc4a8ec2541e9db890d, type: 2}
+  - {fileID: 11400000, guid: 3493d4de645e3cb48a908c037ba63d37, type: 2}
+  - {fileID: 11400000, guid: c0df236b6d4276d43a88186212d2deca, type: 2}
+  - {fileID: 11400000, guid: 641ac74f026ec7c43b9d755dc563ad03, type: 2}
+  - {fileID: 11400000, guid: 127cec6741301854baa6a0f866714dca, type: 2}
+  - {fileID: 11400000, guid: 0f1d543b64a3dad44a3d517d54bb0cec, type: 2}
+  - {fileID: 11400000, guid: 8a675a62efbe95749a34717e9f9d1b0a, type: 2}
+  - {fileID: 11400000, guid: fb051dda49b8de844bb5f083097a7cc0, type: 2}
+  - {fileID: 11400000, guid: d2caccb9c40b7fe4b84bf237d5f4d445, type: 2}
+  - {fileID: 11400000, guid: 3cc87edaf21ca034980a7c3f83a05f39, type: 2}
+  - {fileID: 11400000, guid: c07ba3ddc52e4a34c8a29fb61e3205f8, type: 2}
+  _commandShipPrefab: {fileID: 220518529469829615, guid: 4d20244c340505c4499e58032d6086db,
+    type: 3}

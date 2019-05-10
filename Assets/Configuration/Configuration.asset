@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 769bcb6bf4d922d4ba505ebc979d5300, type: 3}
+  m_Name: Configuration
+  m_EditorClassIdentifier: 
+  _playerSpawnPosition: {x: 2.5, y: 1.375}
+  _playerRespawnDelay: 0.5
+  _playerProjectileVelocity: {x: 0, y: 5}
+  _commandShipSpawnPosition: {x: -1, y: 6.75}
+  _commandShipMinimumSpawnDelay: 12
+  _commandShipMaximumSpawnDelay: 24
+  _commandShipVelocity: {x: 1.75, y: 1.75}
+  _commandShipDestroyedPoints: 18
+  _invaderMinimumReArmDelay: 1
+  _invaderMaximumReArmDelay: 1.5
+  _invaderProjectileVelocity: {x: 0, y: -1}
+  _invaderDestroyedPoints: 2
+  _invaderDescentPointsMultiplier: 2
+  _invaderFormationSpawnPositionOffSet: {x: -4, y: 0}
+  _motherShipSpawnPosition: {x: 0.75, y: 5}
+  _motherShipDescentInitialDelay: 2
+  _motherShipDescentIterativeDelay: 1
+  _motherShipDescentStep: 0.25
+  _motherShipStepsPerDescent: 4
