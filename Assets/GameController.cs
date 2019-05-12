@@ -41,7 +41,7 @@ public class GameController : MonoBehaviour
     {
         // TODO: Consider some kind of short delay?
 
-        if(OnPlayerAbductionComplete != null)
+        if (OnPlayerAbductionComplete != null)
         {
             OnPlayerAbductionComplete(this, EventArgs.Empty);
         }
@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
 
     private void GameOver(object sender, EventArgs e)
     {
-        if(OnGameOver != null)
+        if (OnGameOver != null)
         {
             OnGameOver(this, EventArgs.Empty);
         }
@@ -91,6 +91,7 @@ public class GameController : MonoBehaviour
 
     private void OnDisable()
     {
+        UIController.OnSystemResetButtonClicked -= QuitGame;
         UIController.OnOptionButtonClicked -= SelectGame;
         UIController.OnSelectButtonClicked -= SelectNumberOfPlayers;
         UIController.OnStartButtonClicked -= StartGame;
@@ -108,6 +109,7 @@ public class GameController : MonoBehaviour
 
     private void OnEnable()
     {
+        UIController.OnSystemResetButtonClicked += QuitGame;
         UIController.OnOptionButtonClicked += SelectGame;
         UIController.OnSelectButtonClicked += SelectNumberOfPlayers;
         UIController.OnStartButtonClicked += StartGame;
@@ -125,7 +127,7 @@ public class GameController : MonoBehaviour
 
     private void MotherShipLanded(object sender, EventArgs e)
     {
-        if(OnPlayerAbduction != null)
+        if (OnPlayerAbduction != null)
         {
             PlayerAbductionEventArgs playerAbductionEventArgs = new PlayerAbductionEventArgs(_player);
 
@@ -141,7 +143,7 @@ public class GameController : MonoBehaviour
     {
         if (_player.Lives <= 0)
         {
-            _uiController.SetLives(_player.Lives);  
+            _uiController.SetLives(_player.Lives);
         }
         else
         {
@@ -227,5 +229,16 @@ public class GameController : MonoBehaviour
         {
             OnGameStarted(this, EventArgs.Empty);
         }
+    }
+
+    private void QuitGame(object sender, EventArgs e)
+    {
+#if (UNITY_EDITOR)
+        UnityEditor.EditorApplication.isPlaying = false;
+//#elif (UNITY_STANDALONE)
+//        Application.Quit();
+//#elif (UNITY_WEBGL)
+//        Application.OpenURL("about:blank");
+#endif
     }
 }

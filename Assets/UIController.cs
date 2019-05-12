@@ -38,6 +38,9 @@ public class UIController : MonoBehaviour
 
     private Vector3 _copyrightStartPosition;
 
+    public delegate void SystemResetButtonClickEventHandler(object sender, EventArgs e);
+    public static event SystemResetButtonClickEventHandler OnSystemResetButtonClicked;
+
     public delegate void OptionButtonClickEventHandler(object sender, EventArgs e);
     public static event OptionButtonClickEventHandler OnOptionButtonClicked;
 
@@ -94,6 +97,14 @@ public class UIController : MonoBehaviour
         if (OnStartButtonClicked != null)
         {
             OnStartButtonClicked(this, EventArgs.Empty);
+        }
+    }
+
+    public void SystemResetButtonClicked()
+    {
+        if(OnSystemResetButtonClicked != null)
+        {
+            OnSystemResetButtonClicked(this, EventArgs.Empty);
         }
     }
 
