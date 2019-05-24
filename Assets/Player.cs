@@ -3,6 +3,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PolygonCollider2D))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AnimationEventController))]
 [RequireComponent(typeof(PlayerAttackController))]
 [RequireComponent(typeof(PlayerMovementController))]
 public class Player : MonoBehaviour
@@ -16,9 +20,10 @@ public class Player : MonoBehaviour
     private SpriteRenderer _spriteRenderer = null;
     private Animator _animator = null;
     private PolygonCollider2D _polygonCollider2D = null;
+    private AudioSource _audioSource = null;
+    private AnimationEventController _animationEventController = null;
     private PlayerAttackController _playerShooting = null;
     private PlayerMovementController _playerMovement = null;
-    private AnimationEventController _animationEventController = null;
 
     private Color32 _color;
 
@@ -61,9 +66,10 @@ public class Player : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _polygonCollider2D = GetComponent<PolygonCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
+        _animationEventController = GetComponent<AnimationEventController>();
         _playerShooting = GetComponent<PlayerAttackController>();
         _playerMovement = GetComponent<PlayerMovementController>();
-        _animationEventController = GetComponent<AnimationEventController>();
 
         _animator.SetBool("isAlive", true);
 
@@ -89,6 +95,8 @@ public class Player : MonoBehaviour
         _polygonCollider2D.enabled = false;
         _playerShooting.enabled = false;
         _playerMovement.enabled = false;
+
+        _audioSource.Play();
 
         if (OnHit != null)
         {

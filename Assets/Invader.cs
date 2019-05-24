@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(AnimationEventController))]
 public class Invader : MonoBehaviour
 {
     private SpriteRenderer _spriteRenderer = null;
     private Animator _animator = null;
     private BoxCollider2D _boxCollider2D = null;
+    private AudioSource _audioSource = null;
     private AnimationEventController _animationEventController = null;
 
     private bool _hasLaunched = false;
@@ -42,6 +44,7 @@ public class Invader : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
         _animationEventController = GetComponent<AnimationEventController>();
 
         _animator.SetBool("isAlive", true);
@@ -61,6 +64,7 @@ public class Invader : MonoBehaviour
     {
         _animator.SetBool("isAlive", false);
         _boxCollider2D.enabled = false;
+        _audioSource.Play();
 
         if (OnHit != null)
         {

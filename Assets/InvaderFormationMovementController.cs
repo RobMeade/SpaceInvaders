@@ -3,10 +3,12 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(InvaderFormation))]
 public class InvaderFormationMovementController : MonoBehaviour
 {
     private BoxCollider2D _boxCollider2D = null;
+    private AudioSource _audioSource = null;
     private InvaderFormation _invaderFormation = null;
 
     private Vector2 _velocity = new Vector2();
@@ -33,6 +35,7 @@ public class InvaderFormationMovementController : MonoBehaviour
     private void Awake()
     {
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
         _invaderFormation = GetComponent<InvaderFormation>();
     }
 
@@ -86,6 +89,8 @@ public class InvaderFormationMovementController : MonoBehaviour
     private void Launch()
     {
         _isLaunching = true;
+
+        _audioSource.Play();
     }
 
     private void Move()
@@ -153,6 +158,7 @@ public class InvaderFormationMovementController : MonoBehaviour
                 if (!_hasLanded)
                 {
                     _hasLanded = true;
+                    _audioSource.Stop();
 
                     if (OnLanded != null)
                     {

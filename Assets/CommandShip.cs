@@ -6,9 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(PolygonCollider2D))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AnimationEventController))]
 [RequireComponent(typeof(CommandShipMovementController))]
 [RequireComponent(typeof(CommandShipPlayerAbductionController))]
-[RequireComponent(typeof(AnimationEventController))]
 public class CommandShip : MonoBehaviour
 {
     [SerializeField]
@@ -16,9 +17,10 @@ public class CommandShip : MonoBehaviour
 
     private Animator _animator = null;
     private PolygonCollider2D _polygonCollider2D = null;
+    private AudioSource _audioSource = null;
+    private AnimationEventController _animationEventController = null;
     private CommandShipMovementController _commandShipMovementController = null;
     private CommandShipPlayerAbductionController _commandShipPlayerAbductionController = null;
-    private AnimationEventController _animationEventController = null;
 
     private CommandShipState _commandShipState = CommandShipState.Idle;
 
@@ -78,15 +80,18 @@ public class CommandShip : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _polygonCollider2D = GetComponent<PolygonCollider2D>();
+        _audioSource = GetComponent<AudioSource>();
+        _animationEventController = GetComponent<AnimationEventController>();
         _commandShipMovementController = GetComponent<CommandShipMovementController>();
         _commandShipPlayerAbductionController = GetComponent<CommandShipPlayerAbductionController>();
-        _animationEventController = GetComponent<AnimationEventController>();
 
         _animator.SetBool("isAlive", true);
     }
 
     private void Die()
     {
+        _audioSource.Stop();
+
         StartCoroutine(PrepareForLaunch());
     }
 
@@ -119,6 +124,8 @@ public class CommandShip : MonoBehaviour
     private void Launch()
     {
         _commandShipState = CommandShipState.Flying;
+
+        _audioSource.Play();
     }
 
     private void OnDisable()
