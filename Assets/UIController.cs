@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -102,7 +100,7 @@ public class UIController : MonoBehaviour
 
     public void SystemResetButtonClicked()
     {
-        if(OnSystemResetButtonClicked != null)
+        if (OnSystemResetButtonClicked != null)
         {
             OnSystemResetButtonClicked(this, EventArgs.Empty);
         }
@@ -125,7 +123,7 @@ public class UIController : MonoBehaviour
 
     private void ShowGameCanvas(object sender, EventArgs e)
     {
-        if(_gameCanvas.gameObject.activeSelf != true)
+        if (_gameCanvas.gameObject.activeSelf != true)
         {
             ToggleCanvas(_gameCanvas);
         }
@@ -138,7 +136,7 @@ public class UIController : MonoBehaviour
 
     private void HideTitleCanvas(object sender, EventArgs e)
     {
-        if(_titleCanvas.gameObject.activeSelf == true)
+        if (_titleCanvas.gameObject.activeSelf == true)
         {
             ToggleCanvas(_titleCanvas);
         }

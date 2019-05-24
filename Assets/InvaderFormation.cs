@@ -52,7 +52,7 @@ public class InvaderFormation : MonoBehaviour
 
     private void HaltAttack(object sender, EventArgs e)
     {
-        if(OnHaltAttack != null)
+        if (OnHaltAttack != null)
         {
             OnHaltAttack(this, EventArgs.Empty);
         }
@@ -83,7 +83,7 @@ public class InvaderFormation : MonoBehaviour
 
     private void InvaderHit(object sender, EventArgs e)
     {
-        if(_invaders.Count == 1)
+        if (_invaders.Count == 1)
         {
             AudioSource.PlayClipAtPoint(_formationDestroyedSFX, gameObject.transform.position);
         }
@@ -110,7 +110,7 @@ public class InvaderFormation : MonoBehaviour
 
     private void ResumeAttack(object sender, EventArgs e)
     {
-        if(OnResumeAttack != null)
+        if (OnResumeAttack != null)
         {
             OnResumeAttack(this, EventArgs.Empty);
         }

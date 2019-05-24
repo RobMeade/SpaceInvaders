@@ -54,7 +54,6 @@ public class CommandShipPlayerAbductionController : MonoBehaviour
 
     private void Ascend()
     {
-        // move
         _commandShipPositionY = gameObject.transform.position.y + _configuration.CommandShipVelocity.y * Time.deltaTime;
         gameObject.transform.position = new Vector2(_commandShipPositionX, _commandShipPositionY);
     }
@@ -68,14 +67,13 @@ public class CommandShipPlayerAbductionController : MonoBehaviour
     {
         if (_commandShipPositionX >= _target.transform.position.x)
         {
-            // refine positioning
+            // refine positioning due to over step
             gameObject.transform.position = new Vector2(_target.transform.position.x, _commandShipPositionY);
 
             _abductionSequenceState = AbductionSequenceState.Descending;
         }
         else
         {
-            // move
             _commandShipPositionX = gameObject.transform.position.x + _configuration.CommandShipVelocity.x * Time.deltaTime;
             gameObject.transform.position = new Vector2(_commandShipPositionX, _commandShipPositionY);
         }
@@ -85,7 +83,7 @@ public class CommandShipPlayerAbductionController : MonoBehaviour
     {
         if (_commandShipPositionY <= (_target.transform.position.y + 0.125f))   // TODO: Put this into config
         {
-            // refine positioning
+            // refine positioning due to over step
             gameObject.transform.position = new Vector2(_target.transform.position.x, _target.transform.position.y + 0.125f);
 
             _target.transform.parent = gameObject.transform;
@@ -94,7 +92,6 @@ public class CommandShipPlayerAbductionController : MonoBehaviour
         }
         else
         {
-            // move
             _commandShipPositionY = gameObject.transform.position.y - _configuration.CommandShipVelocity.y * Time.deltaTime;
             gameObject.transform.position = new Vector2(_commandShipPositionX, _commandShipPositionY);
         }

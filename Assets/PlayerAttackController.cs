@@ -17,11 +17,6 @@ public class PlayerAttackController : MonoBehaviour
     private bool _isReloading = false;
 
 
-    private void Awake()
-    {
-        _playerColor = GetComponent<SpriteRenderer>().color;
-    }
-
     private void Attack()
     {
         if (_canAttack && Input.GetButton("Fire") && !_isReloading)
@@ -36,6 +31,11 @@ public class PlayerAttackController : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        _playerColor = GetComponent<SpriteRenderer>().color;
+    }
+
     private void DisableAttacking(object sender, EventArgs e)
     {
         _canAttack = false;
@@ -44,13 +44,6 @@ public class PlayerAttackController : MonoBehaviour
     private void EnableAttacking(object sender, EventArgs e)
     {
         _canAttack = true;
-    }
-
-    private void Reloaded(object sender, ProjectileDestroyedEventArgs e)
-    {
-        _isReloading = false;
-
-        e.Projectile.OnDestroyed -= Reloaded;
     }
 
     private void OnDisable()
@@ -67,6 +60,13 @@ public class PlayerAttackController : MonoBehaviour
         GameController.OnGameStarted += EnableAttacking;
         GameController.OnPlayerAbduction += DisableAttacking;
         GameController.OnPlayerAbductionComplete += EnableAttacking;
+    }
+
+    private void Reloaded(object sender, ProjectileDestroyedEventArgs e)
+    {
+        _isReloading = false;
+
+        e.Projectile.OnDestroyed -= Reloaded;
     }
 
     private void Update()

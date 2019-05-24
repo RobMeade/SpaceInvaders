@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         Reposition(this, EventArgs.Empty);
     }
 
+
     private void AnimationComplete(object sender, AnimationCompleteEventArgs e)
     {
         if (e.AnimationClipType == AnimationEventController.AnimationClipType.PlayerDestroyed)

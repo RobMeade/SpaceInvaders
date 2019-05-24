@@ -24,11 +24,6 @@ public class Projectile : MonoBehaviour
         _rigidBody2D = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
-    {
-        Move();
-    }
-
     private void Move()
     {
         _rigidBody2D.velocity = _velocity;
@@ -42,5 +37,10 @@ public class Projectile : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        Move();
     }
 }

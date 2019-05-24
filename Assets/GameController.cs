@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
     public delegate void PlayerAbductionCompleteEventHandler(object sender, EventArgs e);
     public static event PlayerAbductionCompleteEventHandler OnPlayerAbductionComplete;
 
+
     private void AbductionComplete(object sender, EventArgs e)
     {
         // TODO: Consider some kind of short delay?
@@ -133,10 +134,6 @@ public class GameController : MonoBehaviour
 
             OnPlayerAbduction(this, playerAbductionEventArgs);
         }
-
-        // respawn player
-        // launch invaders
-        // enable commandship
     }
 
     private void PlayerDestroyed(object sender, EventArgs e)

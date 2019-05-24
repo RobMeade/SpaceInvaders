@@ -109,7 +109,7 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private void Update()
     {
-        if(_canAttack && _canReArm && Time.time > _timeToReArm)
+        if (_canAttack && _canReArm && Time.time > _timeToReArm)
         {
             _reArmed = true;
         }
