@@ -14,6 +14,7 @@ public class InvaderFormationMovementController : MonoBehaviour
     private bool _isLaunching = false;
     private bool _hasMadeFirstDescent = false;
     private bool _hasLanded = false;
+    private bool _canMove = false;
 
 
     public delegate void FirstDescentEventHandler(object sender, EventArgs e);
@@ -31,8 +32,8 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     private void Awake()
     {
-        _invaderFormation = GetComponent<InvaderFormation>();
         _boxCollider2D = GetComponent<BoxCollider2D>();
+        _invaderFormation = GetComponent<InvaderFormation>();
     }
 
     private void Descend()
@@ -101,11 +102,15 @@ public class InvaderFormationMovementController : MonoBehaviour
     private void OnDisable()
     {
         InvaderFormation.OnInvaderHit -= ResizeBoxCollider;
+        InvaderFormation.OnHaltAttack -= StopMoving;
+        InvaderFormation.OnResumeAttack -= ResumeMoving;
     }
 
     private void OnEnable()
     {
         InvaderFormation.OnInvaderHit += ResizeBoxCollider;
+        InvaderFormation.OnHaltAttack += StopMoving;
+        InvaderFormation.OnResumeAttack += ResumeMoving;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -172,6 +177,11 @@ public class InvaderFormationMovementController : MonoBehaviour
         _boxCollider2D.offset = boxColliderBounds.center - transform.position;
     }
 
+    private void ResumeMoving(object sender, EventArgs e)
+    {
+        _canMove = true;
+    }
+
     private void ReverseHorizontalDirection()
     {
         _velocity.x = -_velocity.x;
@@ -179,12 +189,22 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     private void Start()
     {
+        _canMove = true;
+
         ResizeBoxCollider();
         Launch();
     }
 
+    private void StopMoving(object sender, EventArgs e)
+    {
+        _canMove = false;
+    }
+
     private void Update()
     {
-        Move();
+        if (_canMove)
+        {
+            Move();
+        }
     }
 }

@@ -13,12 +13,12 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private InvaderFormation _invaderFormation = null;
 
-    private bool _canAttack;
-    private bool _canReArm;
-    private bool _reArmed;
+    private bool _canAttack = false;
+    private bool _canReArm = false;
+    private bool _reArmed = false;
 
-    private float _timeToReArm;
-    private float _fireRate;
+    private float _timeToReArm = 0f;
+    private float _fireRate = 0f;
 
 
     private void Attack()
@@ -55,11 +55,17 @@ public class InvaderFormationAttackController : MonoBehaviour
     private void OnDisable()
     {
         GameController.OnGameOver -= StopAttacking;
+        InvaderFormation.OnCeaseFire -= StopAttacking;
+        InvaderFormation.OnHaltAttack -= StopAttacking;
+        InvaderFormation.OnResumeAttack -= StartAttacking;
     }
 
     private void OnEnable()
     {
         GameController.OnGameOver += StopAttacking;
+        InvaderFormation.OnCeaseFire += StopAttacking;
+        InvaderFormation.OnHaltAttack += StopAttacking;
+        InvaderFormation.OnResumeAttack += StartAttacking;
     }
 
     private void PrepareToAttack()
@@ -79,6 +85,16 @@ public class InvaderFormationAttackController : MonoBehaviour
     }
 
     private void Start()
+    {
+        StartAttacking();
+    }
+
+    private void StartAttacking()
+    {
+        StartAttacking(this, EventArgs.Empty);
+    }
+
+    private void StartAttacking(object sender, EventArgs e)
     {
         _canAttack = true;
         _canReArm = true;

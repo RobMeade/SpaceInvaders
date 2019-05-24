@@ -18,36 +18,43 @@ public class InvaderMotherShip : MonoBehaviour
     private bool _hasLanded = false;
 
 
+    public delegate void CeaseFireEventHandler(object sender, EventArgs e);
+    public static event CeaseFireEventHandler OnCeaseFire;
+
     public delegate void DescentCompleteEventHandler(object sender, EventArgs e);
     public event DescentCompleteEventHandler OnDescentComplete;
+
+    public delegate void HaltAttackEventHandler(object sender, EventArgs e);
+    public static event HaltAttackEventHandler OnHaltAttack;
 
     public delegate void LandedEventHandler(object sender, EventArgs e);
     public event LandedEventHandler OnLanded;
 
+    public delegate void ResumeAttackEventHandler(object sender, EventArgs e);
+    public static event ResumeAttackEventHandler OnResumeAttack;
+
 
     public void CeaseFire()
     {
-        if(_invaderFormation)
+        if (OnCeaseFire != null)
         {
-            _invaderFormation.GetComponent<InvaderFormationAttackController>().enabled = false;
+            OnCeaseFire(this, EventArgs.Empty);
         }
     }
 
     public void HaltAttack()
     {
-        if (_invaderFormation)
+        if (OnHaltAttack != null)
         {
-            _invaderFormation.GetComponent<InvaderFormationMovementController>().enabled = false;
-            _invaderFormation.GetComponent<InvaderFormationAttackController>().enabled = false;
+            OnHaltAttack(this, EventArgs.Empty);
         }
     }
 
     public void ResumeAttack()
     {
-        if (_invaderFormation)
+        if (OnResumeAttack != null)
         {
-            _invaderFormation.GetComponent<InvaderFormationMovementController>().enabled = true;
-            _invaderFormation.GetComponent<InvaderFormationAttackController>().enabled = true;
+            OnResumeAttack(this, EventArgs.Empty);
         }
     }
 
@@ -91,7 +98,7 @@ public class InvaderMotherShip : MonoBehaviour
                 {
                     PrepareToLaunchInvaderFormation();
 
-                    if(OnDescentComplete != null)
+                    if (OnDescentComplete != null)
                     {
                         OnDescentComplete(this, EventArgs.Empty);
                     }
