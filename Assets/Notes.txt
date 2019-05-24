@@ -8,11 +8,15 @@ RESEARCH:
 	09/05
 	Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
 
+	12/05
+	Space invaders fire only from the column closest to the player, in most cases the one above the player.  If the player
+	is off to the extreme left or right then the left/right most column will fire.  
+
+	Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the
+	invader in the third row will be the invader that fires.
+
 
 Features (Summary):
-
-* UI
-  - Quit Game?
 
 * Invaders movement speed-up
   - As the number of Invaders reduces, speed-up the movement
@@ -20,11 +24,9 @@ Features (Summary):
   - As the number of Invaders reduces, speed-up the firing rate
 
 * Audio
-  - Player explosion
-  - Invader explosion - additional effect when the last invader is destroyed
   - Invader movement - tempo increases as invader count reduces
   - command ship explosion - slightly different sound
-  - Command Ship flying - pitch changes for descent/ascent on play abduction
+  - Command Ship abduction - pitch changes for descent/ascent on play abduction
 
   - menu button click/tap
 
@@ -42,15 +44,11 @@ FEATURES:
 	* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
 
 	09/05
-	* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
-
 	* FEATURE #7: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
 					finally when the count reaches 1
 					Need to research speed increases - consider recording video and using playback speed to calculate rate?
 
 	* FEATURE #8: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
-
-	* FEATURE #9: Quit game (System Reset - darker brown)
 
 COMPLETED:
 
@@ -94,3 +92,9 @@ COMPLETED:
 
 	02/05
 	* FEATURE #5: At the end of the 8th wave, the CommandShip comes down and takes your ship, need to check respawn position and any other effects of this feature (e.g. extra life?)
+
+	12/05
+	* FEATURE #9: Quit game (System Reset - darker brown)
+
+	16/05
+	* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
