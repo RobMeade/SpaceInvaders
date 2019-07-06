@@ -1818,6 +1818,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CommandShip
       objectReference: {fileID: 0}
+    - target: {fileID: 220518529469829615, guid: 4d20244c340505c4499e58032d6086db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 220518529469829585, guid: 4d20244c340505c4499e58032d6086db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1874,6 +1879,11 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2215838084700740143, guid: 4d20244c340505c4499e58032d6086db,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932575858274071930, guid: 4d20244c340505c4499e58032d6086db,
         type: 3}
       propertyPath: m_Enabled
       value: 1

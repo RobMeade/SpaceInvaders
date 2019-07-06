@@ -22,7 +22,7 @@ public class Configuration : ScriptableObject
     [SerializeField]
     private Vector2 _playerProjectileVelocity = new Vector2(0f, 1f);
 
-    
+
     [Header("Command Ship")]
     [SerializeField]
     private Vector2 _commandShipSpawnPosition = new Vector2(-1f, 6.75f);
@@ -38,6 +38,18 @@ public class Configuration : ScriptableObject
 
     [SerializeField]
     private int _commandShipDestroyedPoints = 18;
+
+    [SerializeField]
+    private Vector2 _commandShipAbductionContactPointOffset = new Vector2(0f, 0.125f);
+
+    [SerializeField]
+    private float _commandShipDefaultAudioPitch = 1f;
+
+    [SerializeField]
+    private float _commandShipDescentAudioMinimumPitch = 0.5f;
+
+    [SerializeField]
+    private float _commandShipAscentAudioMaximumPitch = 1.5f;
 
 
     [Header("Invader")]
@@ -62,7 +74,19 @@ public class Configuration : ScriptableObject
     private Vector2 _invaderFormationSpawnPositionOffSet = new Vector2(-4f, 0f);
 
     [SerializeField]
-    private Vector2 _invaderFormationVelocity = new Vector2(1f, 0.25f);
+    private Vector2 _invaderFormationMovementVelocityVerySlow = new Vector2(1f, 0.25f);
+
+    [SerializeField]
+    private Vector2 _invaderFormationMovementVelocitySlow = new Vector2(1.5f, 0.25f);
+
+    [SerializeField]
+    private Vector2 _invaderFormationMovementVelocityFast = new Vector2(2f, 0.25f);
+
+    [SerializeField]
+    private Vector2 _invaderFormationMovementVelocityVeryFast = new Vector2(4f, 0.25f);
+
+    [SerializeField]
+    private float _invaderFormationDescentAudioVolumeIncrease = 0.0625f;
 
 
     [Header("Mother Ship")]
@@ -144,7 +168,27 @@ public class Configuration : ScriptableObject
     {
         get { return _commandShipDestroyedPoints; }
     }
-       
+
+    public Vector2 CommandShipAbductionContactPointOffset
+    {
+        get { return _commandShipAbductionContactPointOffset; }
+    }
+
+    public float CommandShipDefaultAudioPitch
+    {
+        get { return _commandShipDefaultAudioPitch; }
+    }
+
+    public float CommandShipDescentAudioMinimumPitch
+    {
+        get { return _commandShipDescentAudioMinimumPitch; }
+    }
+
+    public float CommandShipAscentAudioMaximumPitch
+    {
+        get { return _commandShipAscentAudioMaximumPitch; }
+    }
+
 
     // invader
     public float InvaderMinimumReArmDelay
@@ -179,9 +223,29 @@ public class Configuration : ScriptableObject
         get { return _invaderFormationSpawnPositionOffSet; }
     }
 
-    public Vector2 InvaderFormationVelocity
+    public Vector2 InvaderFormationMovementVelocityVerySlow
     {
-        get { return _invaderFormationVelocity; }
+        get { return _invaderFormationMovementVelocityVerySlow; }
+    }
+
+    public Vector2 InvaderFormationMovementVelocitySlow
+    {
+        get { return _invaderFormationMovementVelocitySlow; }
+    }
+
+    public Vector2 InvaderFormationMovementVelocityFast
+    {
+        get { return _invaderFormationMovementVelocityFast; }
+    }
+
+    public Vector2 InvaderFormationMovementVelocityVeryFast
+    {
+        get { return _invaderFormationMovementVelocityVeryFast; }
+    }
+
+    public float InvaderFormationDescentAudioVolumeIncrease
+    {
+        get { return _invaderFormationDescentAudioVolumeIncrease; }
     }
 
 

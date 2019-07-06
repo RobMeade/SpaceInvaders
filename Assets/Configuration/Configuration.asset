@@ -14,20 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpawnPosition: {x: 2.5, y: 1.375}
   _playerRespawnDelay: 0.5
+  _playerVelocity: {x: 5, y: 0}
+  _playerBoundsMinimumX: 1.5
+  _playerBoundsMaximumX: 9.5
   _playerProjectileVelocity: {x: 0, y: 5}
   _commandShipSpawnPosition: {x: -1, y: 6.75}
   _commandShipMinimumSpawnDelay: 12
   _commandShipMaximumSpawnDelay: 24
   _commandShipVelocity: {x: 1.75, y: 1.75}
   _commandShipDestroyedPoints: 18
+  _commandShipAbductionContactPointOffset: {x: 0, y: 0.125}
+  _commandShipDefaultAudioPitch: 1
+  _commandShipDescentAudioMinimumPitch: 0.5
+  _commandShipAscentAudioMaximumPitch: 1.5
   _invaderMinimumReArmDelay: 1
   _invaderMaximumReArmDelay: 1.5
   _invaderProjectileVelocity: {x: 0, y: -1}
   _invaderDestroyedPoints: 2
   _invaderDescentPointsMultiplier: 2
   _invaderFormationSpawnPositionOffSet: {x: -4, y: 0}
+  _invaderFormationMovementVelocity1: {x: 1, y: 0.25}
+  _invaderFormationMovementVelocity2: {x: 1.5, y: 0.25}
+  _invaderFormationMovementVelocity3: {x: 2, y: 0.25}
+  _invaderFormationMovementVelocity4: {x: 4, y: 0.25}
   _motherShipSpawnPosition: {x: 0.75, y: 5}
   _motherShipDescentInitialDelay: 2
   _motherShipDescentIterativeDelay: 1
   _motherShipDescentStep: 0.25
   _motherShipStepsPerDescent: 4
+  _copyrightTextScrollSpeed: 2

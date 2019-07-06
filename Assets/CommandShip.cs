@@ -52,6 +52,8 @@ public class CommandShip : MonoBehaviour
         _animator.SetBool("isAbductingPlayer", true);
 
         _commandShipPlayerAbductionController.SetTarget(e.Player.gameObject);
+
+        _audioSource.Play();
     }
 
     private void AbductionComplete()
@@ -61,6 +63,8 @@ public class CommandShip : MonoBehaviour
         gameObject.transform.position = _configuration.CommandShipSpawnPosition;
 
         _animator.SetBool("isAbductingPlayer", false);
+
+        _audioSource.Stop();
 
         if (OnAbductionComplete != null)
         {
@@ -182,6 +186,8 @@ public class CommandShip : MonoBehaviour
         _commandShipState = CommandShipState.PreparingToLaunch;
 
         gameObject.transform.position = _configuration.CommandShipSpawnPosition;
+
+        _audioSource.pitch = _configuration.CommandShipDefaultAudioPitch;
 
         _animator.SetBool("isAlive", true);
 

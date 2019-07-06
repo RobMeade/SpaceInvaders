@@ -102,8 +102,8 @@ public class GameController : MonoBehaviour
         InvaderFormation.OnInvaderHit -= InvaderHit;
         InvaderFormationMovementController.OnLanded -= GameOver;
         InvaderFormationMovementController.OnFirstDescent -= ApplyPointsMultiplier;
-        _invaderMotherShip.OnDescentComplete -= RepositionPlayer;
-        _invaderMotherShip.OnLanded -= MotherShipLanded;
+        InvaderMotherShip.OnDescentComplete -= RepositionPlayer;
+        InvaderMotherShip.OnLanded -= MotherShipLanded;
         _player.OnDestroyed -= PlayerDestroyed;
         _player.OnHit -= PlayerHit;
     }
@@ -120,8 +120,8 @@ public class GameController : MonoBehaviour
         InvaderFormation.OnInvaderHit += InvaderHit;
         InvaderFormationMovementController.OnLanded += GameOver;
         InvaderFormationMovementController.OnFirstDescent += ApplyPointsMultiplier;
-        _invaderMotherShip.OnDescentComplete += RepositionPlayer;
-        _invaderMotherShip.OnLanded += MotherShipLanded;
+        InvaderMotherShip.OnDescentComplete += RepositionPlayer;
+        InvaderMotherShip.OnLanded += MotherShipLanded;
         _player.OnDestroyed += PlayerDestroyed;
         _player.OnHit += PlayerHit;
     }

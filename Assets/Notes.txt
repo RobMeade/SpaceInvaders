@@ -19,14 +19,11 @@ RESEARCH:
 Features (Summary):
 
 * Invaders movement speed-up
-  - As the number of Invaders reduces, speed-up the movement
   - As the number of Invaders reduces, speed-up the animation
   - As the number of Invaders reduces, speed-up the firing rate
 
 * Audio
-  - Invader movement - tempo increases as invader count reduces
   - command ship explosion - slightly different sound
-  - Command Ship abduction - pitch changes for descent/ascent on play abduction
 
   - menu button click/tap
 
@@ -37,6 +34,17 @@ BUGS:
 			   and subsequently it disappears.  Need to consider either preventing the CommandShip from spawning when there are only a few invaders left, or
 			   left the CommandShip fly off the screen before it comes back for the abduction.
 
+	04/07
+	* BUG #16: If two invaders get hit, seemingly at the same time, two destroyed sound fxs play almost simultaneously, this creates the effect of the volume being louder
+			   Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
+
+	04/07
+	* BUG #17: CommandShip should spawn only once per wave.  Oncee the 7th column of invaders has left the MotherShip it seems to appear.  
+			   Remove random spawning ranges.  This may actually help to resolve Bug #15. 
+
+	06/07
+	# BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.  This is because the count of invaders is still > 1 because
+			   the previously hit invaders animation hasn't finished which calls the code to reduce the count.
 
 FEATURES:
 
@@ -44,11 +52,9 @@ FEATURES:
 	* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
 
 	09/05
-	* FEATURE #7: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
-					finally when the count reaches 1
-					Need to research speed increases - consider recording video and using playback speed to calculate rate?
+	* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
 
-	* FEATURE #8: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+	* FEATURE #7: Enhanced sound effects
 
 COMPLETED:
 
@@ -98,3 +104,8 @@ COMPLETED:
 
 	16/05
 	* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
+
+	25/06
+	* FEATURE #8: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
+				finally when the count reaches 1
+				Need to research speed increases - consider recording video and using playback speed to calculate rate?

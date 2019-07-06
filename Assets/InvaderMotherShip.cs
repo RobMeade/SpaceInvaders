@@ -15,6 +15,7 @@ public class InvaderMotherShip : MonoBehaviour
     private InvaderFormation _invaderFormationPrefab = null;
 
     private InvaderFormation _invaderFormation = null;
+    private int _descentsPerformed = 0;
     private bool _hasLanded = false;
 
 
@@ -22,16 +23,22 @@ public class InvaderMotherShip : MonoBehaviour
     public static event CeaseFireEventHandler OnCeaseFire;
 
     public delegate void DescentCompleteEventHandler(object sender, EventArgs e);
-    public event DescentCompleteEventHandler OnDescentComplete;
+    public static event DescentCompleteEventHandler OnDescentComplete;
 
     public delegate void HaltAttackEventHandler(object sender, EventArgs e);
     public static event HaltAttackEventHandler OnHaltAttack;
 
     public delegate void LandedEventHandler(object sender, EventArgs e);
-    public event LandedEventHandler OnLanded;
+    public static event LandedEventHandler OnLanded;
 
     public delegate void ResumeAttackEventHandler(object sender, EventArgs e);
     public static event ResumeAttackEventHandler OnResumeAttack;
+
+
+    public int DescentsPerformed
+    {
+        get { return _descentsPerformed; }
+    }
 
 
     public void CeaseFire()
@@ -93,6 +100,7 @@ public class InvaderMotherShip : MonoBehaviour
             if (transform.position == targetPosition)
             {
                 arrived = true;
+                _descentsPerformed++;
 
                 if (!_hasLanded)
                 {
@@ -146,8 +154,14 @@ public class InvaderMotherShip : MonoBehaviour
 
         _invaderFormation = Instantiate(_invaderFormationPrefab, launchPosition, Quaternion.identity);
 
+        // TODO: I really dont like this being here!
+        if (_descentsPerformed > 0)
+        {
+            _invaderFormation.GetComponent<AudioSource>().volume += _descentsPerformed * _configuration.InvaderFormationDescentAudioVolumeIncrease;
+        }
+
         // TODO: Could throw an error due to assumption of component
-        _invaderFormation.GetComponent<InvaderFormationMovementController>().Velocity = _configuration.InvaderFormationVelocity;
+        //_invaderFormation.GetComponent<InvaderFormationMovementController>().Velocity = _configuration.InvaderFormationVelocity;
 
         // TODO: Could use the Game parameter (overloaded method of same name) to set the invader formations shooting pattern
     }

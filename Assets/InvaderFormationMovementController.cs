@@ -7,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(InvaderFormation))]
 public class InvaderFormationMovementController : MonoBehaviour
 {
+    [SerializeField]
+    private Configuration _configuration = null;
+
     private BoxCollider2D _boxCollider2D = null;
     private AudioSource _audioSource = null;
     private InvaderFormation _invaderFormation = null;
@@ -19,17 +22,17 @@ public class InvaderFormationMovementController : MonoBehaviour
     private bool _canMove = false;
 
 
+    public delegate void DescentEventHandler(object sender, EventArgs e);
+    public static event DescentEventHandler OnDescent;
+
     public delegate void FirstDescentEventHandler(object sender, EventArgs e);
     public static event FirstDescentEventHandler OnFirstDescent;
 
     public delegate void LandedEventHandler(object sender, EventArgs e);
     public static event LandedEventHandler OnLanded;
 
-
-    public Vector2 Velocity
-    {
-        set { _velocity = value; }
-    }
+    public delegate void VelocityIncreasedEventHandler(object sender, InvaderFormationVelocityIncreasedEventArgs e);
+    public static event VelocityIncreasedEventHandler OnVelocityIncreased;
 
 
     private void Awake()
@@ -37,6 +40,8 @@ public class InvaderFormationMovementController : MonoBehaviour
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _audioSource = GetComponent<AudioSource>();
         _invaderFormation = GetComponent<InvaderFormation>();
+
+        _velocity = _configuration.InvaderFormationMovementVelocityVerySlow;
     }
 
     private void Descend()
@@ -51,10 +56,72 @@ public class InvaderFormationMovementController : MonoBehaviour
             }
         }
 
+        if (OnDescent != null)
+        {
+            OnDescent(this, EventArgs.Empty);
+        }
+
         float xPosition = gameObject.transform.position.x;
         float yPosition = gameObject.transform.position.y - _velocity.y;
 
         gameObject.transform.position = new Vector2(xPosition, yPosition);
+    }
+
+    // TODO: Refactor, too much duplication
+    private void DetermineMovementVelocity(int invadersRemaining)
+    {
+        if (invadersRemaining > 24)
+        {
+            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVerySlow.x))
+            {
+                SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVerySlow);
+
+                if (OnVelocityIncreased != null)
+                {
+                    InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityVerySlow);
+                    OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
+                }
+            }
+        }
+        else if (invadersRemaining <= 24 && invadersRemaining > 12)
+        {
+            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocitySlow.x))
+            {
+                SetMovementVelocity(_configuration.InvaderFormationMovementVelocitySlow);
+
+                if(OnVelocityIncreased != null)
+                {
+                    InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocitySlow);
+                    OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
+                }
+            }
+        }
+        else if (invadersRemaining <= 12 && invadersRemaining > 1)
+        {
+            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityFast.x))
+            {
+                SetMovementVelocity(_configuration.InvaderFormationMovementVelocityFast);
+
+                if (OnVelocityIncreased != null)
+                {
+                    InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityFast);
+                    OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
+                }
+            }
+        }
+        else if (invadersRemaining == 1)
+        {
+            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVeryFast.x))
+            {
+                SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVeryFast);
+
+                if (OnVelocityIncreased != null)
+                {
+                    InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityVeryFast);
+                    OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
+                }
+            }
+        }
     }
 
     private Bounds GetChildBoxColliderBounds()
@@ -86,11 +153,24 @@ public class InvaderFormationMovementController : MonoBehaviour
         return bounds;
     }
 
+    private void InvaderDestroyed(object sender, EventArgs e)
+    {
+        DetermineMovementVelocity(_invaderFormation.Invaders.Count);
+    }
+
+    private void InvaderHit(object sender, EventArgs e)
+    {
+        ResizeBoxCollider();
+
+        if (_invaderFormation.Invaders.Count == 1)
+        {
+            SetMovementVelocity(Vector2.zero);
+        }
+    }
+
     private void Launch()
     {
         _isLaunching = true;
-
-        _audioSource.Play();
     }
 
     private void Move()
@@ -106,14 +186,16 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     private void OnDisable()
     {
-        InvaderFormation.OnInvaderHit -= ResizeBoxCollider;
+        InvaderFormation.OnInvaderHit -= InvaderHit;
+        InvaderFormation.OnInvaderDestroyed -= InvaderDestroyed;
         InvaderFormation.OnHaltAttack -= StopMoving;
         InvaderFormation.OnResumeAttack -= ResumeMoving;
     }
 
     private void OnEnable()
     {
-        InvaderFormation.OnInvaderHit += ResizeBoxCollider;
+        InvaderFormation.OnInvaderHit += InvaderHit;
+        InvaderFormation.OnInvaderDestroyed += InvaderDestroyed;
         InvaderFormation.OnHaltAttack += StopMoving;
         InvaderFormation.OnResumeAttack += ResumeMoving;
     }
@@ -158,7 +240,6 @@ public class InvaderFormationMovementController : MonoBehaviour
                 if (!_hasLanded)
                 {
                     _hasLanded = true;
-                    _audioSource.Stop();
 
                     if (OnLanded != null)
                     {
@@ -171,11 +252,6 @@ public class InvaderFormationMovementController : MonoBehaviour
     }
 
     private void ResizeBoxCollider()
-    {
-        ResizeBoxCollider(this, EventArgs.Empty);
-    }
-
-    private void ResizeBoxCollider(object sender, EventArgs e)
     {
         Bounds boxColliderBounds = GetChildBoxColliderBounds();
 
@@ -191,6 +267,27 @@ public class InvaderFormationMovementController : MonoBehaviour
     private void ReverseHorizontalDirection()
     {
         _velocity.x = -_velocity.x;
+    }
+
+    private void SetMovementVelocity(Vector2 velocity)
+    {
+        if (velocity != Vector2.zero)
+        {
+            if (_velocity.x <= 0)
+            {
+                _velocity.x = -velocity.x;
+            }
+            else
+            {
+                _velocity.x = velocity.x;
+            }
+
+            _velocity.y = velocity.y;
+        }
+        else
+        {
+            _velocity = velocity;
+        }
     }
 
     private void Start()
