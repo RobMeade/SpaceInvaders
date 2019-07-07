@@ -54,7 +54,7 @@ FEATURES:
 	09/05
 	* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
 
-	* FEATURE #7: Enhanced sound effects
+
 
 COMPLETED:
 
@@ -109,3 +109,6 @@ COMPLETED:
 	* FEATURE #8: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
 				finally when the count reaches 1
 				Need to research speed increases - consider recording video and using playback speed to calculate rate?
+
+	06/07
+	* FEATURE #7: Enhanced sound effects
