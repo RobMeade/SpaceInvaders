@@ -51,6 +51,9 @@ public class Configuration : ScriptableObject
     [SerializeField]
     private float _commandShipAscentAudioMaximumPitch = 1.5f;
 
+    [SerializeField]
+    private float _commandShipDestroyedAudioMaximumPitch = 1.5f;
+
 
     [Header("Invader")]
     [SerializeField]
@@ -197,6 +200,11 @@ public class Configuration : ScriptableObject
     public float CommandShipAscentAudioMaximumPitch
     {
         get { return _commandShipAscentAudioMaximumPitch; }
+    }
+
+    public float CommandShipDestroyedAudioMaximumPitch
+    {
+        get { return _commandShipDestroyedAudioMaximumPitch; }
     }
 
 

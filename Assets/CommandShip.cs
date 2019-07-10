@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(AnimationEventController))]
 [RequireComponent(typeof(CommandShipMovementController))]
 [RequireComponent(typeof(CommandShipPlayerAbductionController))]
+[RequireComponent(typeof(CommandShipAudioController))]
 public class CommandShip : MonoBehaviour
 {
     [SerializeField]
