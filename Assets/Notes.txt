@@ -43,8 +43,16 @@ BUGS:
 			   Remove random spawning ranges.  This may actually help to resolve Bug #15. 
 
 	06/07
-	# BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.  This is because the count of invaders is still > 1 because
+	* BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.  This is because the count of invaders is still > 1 because
 			   the previously hit invaders animation hasn't finished which calls the code to reduce the count.
+
+	10/07
+	* BUG #19: When the first column of invaders are destroyed quickly, the InvaderFormation changes direction and disappears off the screen.
+			   When the first column of invaders are destroyed very quickly, as they are emerging from the mothership, the BoxCollider2D on the InvaderFormation resizes
+			   and is no longer passed the first PlaySpaceBoundary, when it makes contact, the code then triggers the reverse direction call.
+			   May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
+			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
+			   they made contact with the first PlaySpaceBoundary.
 
 FEATURES:
 

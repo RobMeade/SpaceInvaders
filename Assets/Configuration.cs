@@ -68,6 +68,16 @@ public class Configuration : ScriptableObject
     [SerializeField]
     private int _invaderDescentPointsMultiplier = 2;
 
+    [SerializeField]
+    private float _invaderAnimationSpeedMultiplierSlow = 2f;
+
+    [SerializeField]
+    private float _invaderAnimationSpeedMultiplierFast = 4f;
+
+    [SerializeField]
+    private float _invaderAnimationSpeedMultiplierFastest = 6f;
+
+
 
     [Header("Invader Formation")]
     [SerializeField]
@@ -214,6 +224,21 @@ public class Configuration : ScriptableObject
     public int InvaderDescentPointsMultiplier
     {
         get { return _invaderDescentPointsMultiplier; }
+    }
+
+    public float InvaderAnimationSpeedMultiplierSlow
+    {
+        get { return _invaderAnimationSpeedMultiplierSlow; }
+    }
+
+    public float InvaderAnimationSpeedMultiplierFast
+    {
+        get { return _invaderAnimationSpeedMultiplierFast; }
+    }
+
+    public float InvaderAnimationSpeedMultiplierFastest
+    {
+        get { return _invaderAnimationSpeedMultiplierFastest; }
     }
 
 
