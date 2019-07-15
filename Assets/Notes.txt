@@ -15,16 +15,13 @@ RESEARCH:
 	Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the
 	invader in the third row will be the invader that fires.
 
+	11/07
+	Does the number of remaining Invaders influence their rate of fire?
+
 
 Features (Summary):
 
-* Invaders movement speed-up
-  - As the number of Invaders reduces, speed-up the animation
-  - As the number of Invaders reduces, speed-up the firing rate
-
 * Audio
-  - command ship explosion - slightly different sound
-
   - menu button click/tap
 
 
@@ -39,7 +36,7 @@ BUGS:
 			   Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
 
 	04/07
-	* BUG #17: CommandShip should spawn only once per wave.  Oncee the 7th column of invaders has left the MotherShip it seems to appear.  
+	* BUG #17: CommandShip should spawn only once per wave.  Once the 7th column of invaders has left the MotherShip it seems to appear.  
 			   Remove random spawning ranges.  This may actually help to resolve Bug #15. 
 
 	06/07
@@ -54,13 +51,28 @@ BUGS:
 			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
 			   they made contact with the first PlaySpaceBoundary.
 
+	11/07
+	* BUG #20: InvaderFormation continues to play marching sound effect even when the player has been hit/destroyed.
+
+	* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.
+
+	* BUG #22: CommandShip stops moving when the InvaderFormation lands, but the CommandShip audio continues to play.  should the CommandShip still move off the screen (as it does when
+			   the player dies) or, should it stop, but have the audio stop also.
+
+	* BUG #23: Stutter sound effect is too quite.  The .ogg files may need to be normalised, alternatively, consider raising the volume of this effect.
+
+	* BUG #24: When the player loses their last life, the CommandShip, if present, continues to fly off the screen but has no audio.  The invaders continue to march, but do not shoot, nor have any audio.
+
+	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
+			   Once the player is respawned, these projectiles are cleared from the screen.
+
+	* BUG #26: End Game, when the player loses all of their lives the menu doesn't appear until the remaining invaders have landed on the planet.
+
+
 FEATURES:
 
 	03/03
 	* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
-
-	09/05
-	* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
 
 
 
@@ -120,3 +132,8 @@ COMPLETED:
 
 	06/07
 	* FEATURE #7: Enhanced sound effects
+
+	10/07
+	* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+
+	* FEATURE #7: Command ship explosion - slightly different sound
