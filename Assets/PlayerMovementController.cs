@@ -40,6 +40,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         GameController.OnGameOver -= DisableMovement;
         GameController.OnGameStarted -= EnableMovement;
+        GameController.OnInvaderFormationLanded -= DisableMovement;
         GameController.OnPlayerAbduction -= DisableMovement;
         GameController.OnPlayerAbductionComplete -= EnableMovement;
     }
@@ -48,6 +49,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         GameController.OnGameOver += DisableMovement;
         GameController.OnGameStarted += EnableMovement;
+        GameController.OnInvaderFormationLanded += DisableMovement;
         GameController.OnPlayerAbduction += DisableMovement;
         GameController.OnPlayerAbductionComplete += EnableMovement;
     }

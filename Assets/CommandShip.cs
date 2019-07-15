@@ -102,8 +102,6 @@ public class CommandShip : MonoBehaviour
 
     private void DisableLaunch(object sender, EventArgs e)
     {
-        _commandShipState = CommandShipState.Idle;
-
         StopAllCoroutines();
     }
 
@@ -138,6 +136,7 @@ public class CommandShip : MonoBehaviour
         _animationEventController.OnAnimationComplete -= AnimationComplete;
         GameController.OnGameOver -= DisableLaunch;
         GameController.OnGameStarted -= EnableLaunch;
+        GameController.OnInvaderFormationLanded -= DisableLaunch;
         GameController.OnPlayerAbduction -= Abduct;
         GameController.OnPlayerAbductionComplete -= EnableLaunch;
     }
@@ -147,6 +146,7 @@ public class CommandShip : MonoBehaviour
         _animationEventController.OnAnimationComplete += AnimationComplete;
         GameController.OnGameOver += DisableLaunch;
         GameController.OnGameStarted += EnableLaunch;
+        GameController.OnInvaderFormationLanded += DisableLaunch;
         GameController.OnPlayerAbduction += Abduct;
         GameController.OnPlayerAbductionComplete += EnableLaunch;
     }

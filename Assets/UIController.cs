@@ -89,7 +89,7 @@ public class UIController : MonoBehaviour
     public void StartButtonClicked()
     {
         ShowGameCanvas(this, EventArgs.Empty);
-        ToggleMenuCanvas(this, EventArgs.Empty);
+        HideMenuCanvas(this, EventArgs.Empty);
         HideTitleCanvas(this, EventArgs.Empty);
 
         if (OnStartButtonClicked != null)
@@ -106,32 +106,12 @@ public class UIController : MonoBehaviour
         }
     }
 
-    private void OnDisable()
+    private void HideMenuCanvas(object sender, EventArgs e)
     {
-        GameController.OnGameOver -= ToggleMenuCanvas;
-    }
-
-    private void OnEnable()
-    {
-        GameController.OnGameOver += ToggleMenuCanvas;
-    }
-
-    private void ToggleCanvas(Canvas canvas)
-    {
-        canvas.gameObject.SetActive(!canvas.gameObject.activeSelf);
-    }
-
-    private void ShowGameCanvas(object sender, EventArgs e)
-    {
-        if (_gameCanvas.gameObject.activeSelf != true)
+        if (_menuCanvas.gameObject.activeSelf == true)
         {
-            ToggleCanvas(_gameCanvas);
+            ToggleCanvas(_menuCanvas);
         }
-    }
-
-    private void ToggleMenuCanvas(object sender, EventArgs e)
-    {
-        ToggleCanvas(_menuCanvas);
     }
 
     private void HideTitleCanvas(object sender, EventArgs e)
@@ -140,6 +120,18 @@ public class UIController : MonoBehaviour
         {
             ToggleCanvas(_titleCanvas);
         }
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameOver -= ShowMenuCanvas;
+        GameController.OnInvaderFormationLanded -= ShowMenuCanvas;
+    }
+
+    private void OnEnable()
+    {
+        GameController.OnGameOver += ShowMenuCanvas;
+        GameController.OnInvaderFormationLanded += ShowMenuCanvas;
     }
 
     private void ScrollCopyrightText()
@@ -156,10 +148,32 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private void ShowGameCanvas(object sender, EventArgs e)
+    {
+        if (_gameCanvas.gameObject.activeSelf != true)
+        {
+            ToggleCanvas(_gameCanvas);
+        }
+    }
+
+    private void ShowMenuCanvas(object sender, EventArgs e)
+    {
+        if (_menuCanvas.gameObject.activeSelf != true)
+        {
+            ToggleCanvas(_menuCanvas);
+        }
+    }
+
     private void Start()
     {
         _copyrightStartPosition = new Vector3(_copyright.transform.position.x, _copyright.transform.position.y, 0f);
     }
+
+    private void ToggleCanvas(Canvas canvas)
+    {
+        canvas.gameObject.SetActive(!canvas.gameObject.activeSelf);
+    }
+
 
     private void Update()
     {

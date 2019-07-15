@@ -72,7 +72,7 @@ public class InvaderFormationMovementController : MonoBehaviour
     {
         if (invadersRemaining > 24)
         {
-            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVerySlow.x))
+            if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVerySlow.x))
             {
                 SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVerySlow);
 
@@ -85,11 +85,11 @@ public class InvaderFormationMovementController : MonoBehaviour
         }
         else if (invadersRemaining <= 24 && invadersRemaining > 12)
         {
-            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocitySlow.x))
+            if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocitySlow.x))
             {
                 SetMovementVelocity(_configuration.InvaderFormationMovementVelocitySlow);
 
-                if(OnVelocityIncreased != null)
+                if (OnVelocityIncreased != null)
                 {
                     InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocitySlow);
                     OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
@@ -98,7 +98,7 @@ public class InvaderFormationMovementController : MonoBehaviour
         }
         else if (invadersRemaining <= 12 && invadersRemaining > 1)
         {
-            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityFast.x))
+            if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityFast.x))
             {
                 SetMovementVelocity(_configuration.InvaderFormationMovementVelocityFast);
 
@@ -111,7 +111,7 @@ public class InvaderFormationMovementController : MonoBehaviour
         }
         else if (invadersRemaining == 1)
         {
-            if(Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVeryFast.x))
+            if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVeryFast.x))
             {
                 SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVeryFast);
 
@@ -175,17 +175,16 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     private void Move()
     {
-        if (!_hasLanded)
-        {
-            float xPosition = gameObject.transform.position.x + _velocity.x * Time.deltaTime;
-            float yPosition = gameObject.transform.position.y;
+        float xPosition = gameObject.transform.position.x + _velocity.x * Time.deltaTime;
+        float yPosition = gameObject.transform.position.y;
 
-            gameObject.transform.position = new Vector2(xPosition, yPosition);
-        }
+        gameObject.transform.position = new Vector2(xPosition, yPosition);
+
     }
 
     private void OnDisable()
     {
+        GameController.OnInvaderFormationLanded -= StopMoving;
         InvaderFormation.OnInvaderHit -= InvaderHit;
         InvaderFormation.OnInvaderDestroyed -= InvaderDestroyed;
         InvaderFormation.OnHaltAttack -= StopMoving;
@@ -194,6 +193,7 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     private void OnEnable()
     {
+        GameController.OnInvaderFormationLanded += StopMoving;
         InvaderFormation.OnInvaderHit += InvaderHit;
         InvaderFormation.OnInvaderDestroyed += InvaderDestroyed;
         InvaderFormation.OnHaltAttack += StopMoving;

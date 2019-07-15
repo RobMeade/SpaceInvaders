@@ -55,6 +55,7 @@ public class InvaderFormationAttackController : MonoBehaviour
     private void OnDisable()
     {
         GameController.OnGameOver -= StopAttacking;
+        GameController.OnInvaderFormationLanded -= StopAttacking;
         InvaderFormation.OnCeaseFire -= StopAttacking;
         InvaderFormation.OnHaltAttack -= StopAttacking;
         InvaderFormation.OnResumeAttack -= StartAttacking;
@@ -63,6 +64,7 @@ public class InvaderFormationAttackController : MonoBehaviour
     private void OnEnable()
     {
         GameController.OnGameOver += StopAttacking;
+        GameController.OnInvaderFormationLanded += StopAttacking;
         InvaderFormation.OnCeaseFire += StopAttacking;
         InvaderFormation.OnHaltAttack += StopAttacking;
         InvaderFormation.OnResumeAttack += StartAttacking;

@@ -19,6 +19,11 @@ public class InvaderAnimationController : MonoBehaviour
         _animator.SetBool("isAlive", true);
     }
 
+    private void InvaderFormationLanded(object sender, EventArgs e)
+    {
+        StopAnimation();
+    }
+
     private void InvaderFormationVelocityIncreased(object sender, InvaderFormationVelocityIncreasedEventArgs e)
     {
         if (e.Velocity == _configuration.InvaderFormationMovementVelocitySlow)
@@ -42,22 +47,23 @@ public class InvaderAnimationController : MonoBehaviour
 
     private void OnDisable()
     {
-        GameController.OnGameOver -= StopAnimation;
+        GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
         _invader.OnHit -= InvaderHit;
     }
 
     private void OnEnable()
     {
-        GameController.OnGameOver += StopAnimation;
+        GameController.OnInvaderFormationLanded += InvaderFormationLanded;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
         _invader.OnHit += InvaderHit;
     }
 
-    private void StopAnimation(object sender, EventArgs e)
+    private void StopAnimation()
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
         {
+            // TODO: Consider using _animator.StopPlayBack() instead of disabling component
             _animator.enabled = false;
         }
     }

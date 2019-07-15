@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -30,6 +31,11 @@ public class CommandShipAudioController : MonoBehaviour
         _audioSource.pitch = _configuration.CommandShipDefaultAudioPitch;
     }
 
+    private void GameOver(object sender, EventArgs e)
+    {
+        _audioSource.Stop();
+    }
+
     private IEnumerator IncreaseAudioPitch()
     {
         while (true)
@@ -38,5 +44,22 @@ public class CommandShipAudioController : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void InvaderFormationLanded(object sender, EventArgs e)
+    {
+        _audioSource.Stop();
+    }
+
+    private void OnDisable()
+    {
+        GameController.OnGameOver -= GameOver;
+        GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
+    }
+
+    private void OnEnable()
+    {
+        GameController.OnGameOver += GameOver;
+        GameController.OnInvaderFormationLanded += InvaderFormationLanded;
     }
 }

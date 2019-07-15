@@ -50,6 +50,7 @@ public class PlayerAttackController : MonoBehaviour
     {
         GameController.OnGameOver -= DisableAttacking;
         GameController.OnGameStarted -= EnableAttacking;
+        GameController.OnInvaderFormationLanded -= DisableAttacking;
         GameController.OnPlayerAbduction -= DisableAttacking;
         GameController.OnPlayerAbductionComplete -= EnableAttacking;
     }
@@ -58,6 +59,7 @@ public class PlayerAttackController : MonoBehaviour
     {
         GameController.OnGameOver += DisableAttacking;
         GameController.OnGameStarted += EnableAttacking;
+        GameController.OnInvaderFormationLanded += DisableAttacking;
         GameController.OnPlayerAbduction += DisableAttacking;
         GameController.OnPlayerAbductionComplete += EnableAttacking;
     }

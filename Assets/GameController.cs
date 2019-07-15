@@ -25,6 +25,9 @@ public class GameController : MonoBehaviour
     private int _selectedGameIndex = 0;
 
 
+    public delegate void InvaderFormationLandedEventHandler(object sender, EventArgs e);
+    public static event InvaderFormationLandedEventHandler OnInvaderFormationLanded;
+
     public delegate void GameOverEventHandler(object sender, EventArgs e);
     public static event GameOverEventHandler OnGameOver;
 
@@ -71,7 +74,7 @@ public class GameController : MonoBehaviour
         _uiController.SetScore(_player.Score);
     }
 
-    private void GameOver(object sender, EventArgs e)
+    private void GameOver()
     {
         if (OnGameOver != null)
         {
@@ -82,6 +85,14 @@ public class GameController : MonoBehaviour
     private void HaltInvaderAttack()
     {
         _invaderMotherShip.HaltAttack();
+    }
+
+    private void InvaderFormationLanded(object sender, EventArgs e)
+    {
+        if (OnInvaderFormationLanded != null)
+        {
+            OnInvaderFormationLanded(this, e);
+        }
     }
 
     private void InvaderHit(object sender, EventArgs e)
@@ -100,7 +111,7 @@ public class GameController : MonoBehaviour
         CommandShip.OnAbductionComplete -= AbductionComplete;
         InvaderFormation.OnFormationDestroyed -= RemovePointsMultiplier;
         InvaderFormation.OnInvaderHit -= InvaderHit;
-        InvaderFormationMovementController.OnLanded -= GameOver;
+        InvaderFormationMovementController.OnLanded -= InvaderFormationLanded;
         InvaderFormationMovementController.OnFirstDescent -= ApplyPointsMultiplier;
         InvaderMotherShip.OnDescentComplete -= RepositionPlayer;
         InvaderMotherShip.OnLanded -= MotherShipLanded;
@@ -118,7 +129,7 @@ public class GameController : MonoBehaviour
         CommandShip.OnAbductionComplete += AbductionComplete;
         InvaderFormation.OnFormationDestroyed += RemovePointsMultiplier;
         InvaderFormation.OnInvaderHit += InvaderHit;
-        InvaderFormationMovementController.OnLanded += GameOver;
+        InvaderFormationMovementController.OnLanded += InvaderFormationLanded;
         InvaderFormationMovementController.OnFirstDescent += ApplyPointsMultiplier;
         InvaderMotherShip.OnDescentComplete += RepositionPlayer;
         InvaderMotherShip.OnLanded += MotherShipLanded;
@@ -141,6 +152,8 @@ public class GameController : MonoBehaviour
         if (_player.Lives <= 0)
         {
             _uiController.SetLives(_player.Lives);
+
+            GameOver();
         }
         else
         {

@@ -32,6 +32,11 @@ public class AudioController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
+    private void GameOver(object sender, EventArgs e)
+    {
+        _audioSource.Stop();
+    }
+
     private void InvaderFormationDescent(object sender, EventArgs e)
     {
         _audioSource.volume += _configuration.InvaderFormationDescentAudioVolumeIncrease;
@@ -66,15 +71,17 @@ public class AudioController : MonoBehaviour
 
     private void OnDisable()
     {
+        GameController.OnGameOver -= GameOver;
+        GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
         InvaderFormationMovementController.OnDescent -= InvaderFormationDescent;
-        InvaderFormationMovementController.OnLanded -= InvaderFormationLanded;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
     }
 
     private void OnEnable()
     {
+        GameController.OnGameOver += GameOver;
+        GameController.OnInvaderFormationLanded += InvaderFormationLanded;
         InvaderFormationMovementController.OnDescent += InvaderFormationDescent;
-        InvaderFormationMovementController.OnLanded += InvaderFormationLanded;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
     }
 
