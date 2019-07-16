@@ -52,10 +52,6 @@ BUGS:
 			   they made contact with the first PlaySpaceBoundary.
 
 	11/07
-	* BUG #20: InvaderFormation continues to play marching sound effect even when the player has been hit/destroyed.
-
-	* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.
-
 	* BUG #23: Stutter sound effect is too quite.  The .ogg files may need to be normalised, alternatively, consider raising the volume of this effect.
 
 	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
@@ -138,3 +134,7 @@ COMPLETED:
 
 	* BUG #22: CommandShip stops moving when the InvaderFormation lands, but the CommandShip audio continues to play.  should the CommandShip still move off the screen (as it does when
 			   the player dies) or, should it stop, but have the audio stop also.
+
+	* BUG #20: InvaderFormation continues to play marching sound effect even when the player has been hit/destroyed.
+
+	* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.

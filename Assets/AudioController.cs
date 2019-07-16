@@ -42,9 +42,19 @@ public class AudioController : MonoBehaviour
         _audioSource.volume += _configuration.InvaderFormationDescentAudioVolumeIncrease;
     }
 
+    private void InvaderFormationHaltAttack(object sender, EventArgs e)
+    {
+        _audioSource.Stop();
+    }
+
     private void InvaderFormationLanded(object sender, EventArgs e)
     {
         _audioSource.Stop();
+    }
+
+    private void InvaderFormationResumeAttack(object sender, EventArgs e)
+    {
+        _audioSource.Play();
     }
 
     private void InvaderFormationVelocityIncreased(object sender, InvaderFormationVelocityIncreasedEventArgs e)
@@ -73,6 +83,8 @@ public class AudioController : MonoBehaviour
     {
         GameController.OnGameOver -= GameOver;
         GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
+        InvaderFormation.OnHaltAttack -= InvaderFormationHaltAttack;
+        InvaderFormation.OnResumeAttack -= InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent -= InvaderFormationDescent;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
     }
@@ -81,6 +93,8 @@ public class AudioController : MonoBehaviour
     {
         GameController.OnGameOver += GameOver;
         GameController.OnInvaderFormationLanded += InvaderFormationLanded;
+        InvaderFormation.OnHaltAttack += InvaderFormationHaltAttack;
+        InvaderFormation.OnResumeAttack += InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent += InvaderFormationDescent;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
     }

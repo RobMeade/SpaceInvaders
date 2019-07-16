@@ -24,6 +24,16 @@ public class InvaderAnimationController : MonoBehaviour
         StopAnimation();
     }
 
+    private void InvaderFormationHaltAttack(object sender, EventArgs e)
+    {
+        StopAnimation();
+    }
+
+    private void InvaderFormationResumeAttack(object sender, EventArgs e)
+    {
+        StartAnimation();
+    }
+
     private void InvaderFormationVelocityIncreased(object sender, InvaderFormationVelocityIncreasedEventArgs e)
     {
         if (e.Velocity == _configuration.InvaderFormationMovementVelocitySlow)
@@ -48,6 +58,8 @@ public class InvaderAnimationController : MonoBehaviour
     private void OnDisable()
     {
         GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
+        InvaderFormation.OnHaltAttack -= InvaderFormationHaltAttack;
+        InvaderFormation.OnResumeAttack -= InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
         _invader.OnHit -= InvaderHit;
     }
@@ -55,8 +67,19 @@ public class InvaderAnimationController : MonoBehaviour
     private void OnEnable()
     {
         GameController.OnInvaderFormationLanded += InvaderFormationLanded;
+        InvaderFormation.OnHaltAttack += InvaderFormationHaltAttack;
+        InvaderFormation.OnResumeAttack += InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
         _invader.OnHit += InvaderHit;
+    }
+
+    private void StartAnimation()
+    {
+        // TODO: Consider using _animator.StopPlayBack() instead of disabling component
+        if (_animator.enabled == false)
+        {
+            _animator.enabled = true;
+        }
     }
 
     private void StopAnimation()
