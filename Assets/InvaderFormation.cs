@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class InvaderFormation : MonoBehaviour
 {
-    [SerializeField]
-    private AudioClip _formationDestroyedSFX = null;
-
     private List<Invader> _invaders = new List<Invader>();
 
 
@@ -26,6 +23,9 @@ public class InvaderFormation : MonoBehaviour
 
     public delegate void InvaderHitEventHandler(object sender, EventArgs e);
     public static event InvaderHitEventHandler OnInvaderHit;
+
+    public delegate void LastInvaderHitEventHandler(object sender, EventArgs e);
+    public static event LastInvaderHitEventHandler OnLastInvaderHit;
 
     public delegate void ResumeAttackEventHandler(object sender, EventArgs e);
     public static event ResumeAttackEventHandler OnResumeAttack;
@@ -85,7 +85,10 @@ public class InvaderFormation : MonoBehaviour
     {
         if (_invaders.Count == 1)
         {
-            AudioSource.PlayClipAtPoint(_formationDestroyedSFX, gameObject.transform.position);
+            if (OnLastInvaderHit != null)
+            {
+                OnLastInvaderHit(this, EventArgs.Empty);
+            }
         }
 
         if (OnInvaderHit != null)

@@ -488,8 +488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa297f639adfb34b911c29155681fcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _formationDestroyedSFX: {fileID: 8300000, guid: 13f2b21bbb108e8498760bd59b700a90,
-    type: 3}
 --- !u!114 &4243382733327637351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,7 +533,8 @@ MonoBehaviour:
   _movementSlow: {fileID: 8300000, guid: a13cd2ab95ec982478985b0f1cc6a8b7, type: 3}
   _movementFast: {fileID: 8300000, guid: d6253d0bceee8ae4faecdfea2cfdcdb7, type: 3}
   _movementFastest: {fileID: 8300000, guid: cc65af9fefe501344839d88169ddd174, type: 3}
-  _audioMixer: {fileID: 0}
+  _formationDestroyedSFX: {fileID: 8300000, guid: 13f2b21bbb108e8498760bd59b700a90,
+    type: 3}
 --- !u!1001 &32351794114110124
 PrefabInstance:
   m_ObjectHideFlags: 0

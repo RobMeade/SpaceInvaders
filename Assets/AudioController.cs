@@ -24,8 +24,16 @@ public class AudioController : MonoBehaviour
     [SerializeField]
     private AudioClip _movementFastest = null;
 
+    [SerializeField]
+    private AudioClip _formationDestroyedSFX = null;
+
     private AudioSource _audioSource = null;
 
+
+    public void Stop()
+    {
+        _audioSource.Stop();
+    }
 
     private void Awake()
     {
@@ -42,12 +50,23 @@ public class AudioController : MonoBehaviour
         _audioSource.volume += _configuration.InvaderFormationDescentAudioVolumeIncrease;
     }
 
+    private void InvaderFormationDestroyed(object sender, EventArgs e)
+    {
+        // TODO: It would be better if this wasn't using a reference to the Camera
+        AudioSource.PlayClipAtPoint(_formationDestroyedSFX, Camera.main.transform.position);
+    }
+
     private void InvaderFormationHaltAttack(object sender, EventArgs e)
     {
         _audioSource.Stop();
     }
 
     private void InvaderFormationLanded(object sender, EventArgs e)
+    {
+        _audioSource.Stop();
+    }
+
+    private void InvaderFormationLastInvaderHit(object sender, EventArgs e)
     {
         _audioSource.Stop();
     }
@@ -83,7 +102,9 @@ public class AudioController : MonoBehaviour
     {
         GameController.OnGameOver -= GameOver;
         GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
+        InvaderFormation.OnFormationDestroyed -= InvaderFormationDestroyed;
         InvaderFormation.OnHaltAttack -= InvaderFormationHaltAttack;
+        InvaderFormation.OnLastInvaderHit -= InvaderFormationLastInvaderHit;
         InvaderFormation.OnResumeAttack -= InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent -= InvaderFormationDescent;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
@@ -93,7 +114,9 @@ public class AudioController : MonoBehaviour
     {
         GameController.OnGameOver += GameOver;
         GameController.OnInvaderFormationLanded += InvaderFormationLanded;
+        InvaderFormation.OnFormationDestroyed += InvaderFormationDestroyed;
         InvaderFormation.OnHaltAttack += InvaderFormationHaltAttack;
+        InvaderFormation.OnLastInvaderHit += InvaderFormationLastInvaderHit;
         InvaderFormation.OnResumeAttack += InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent += InvaderFormationDescent;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
