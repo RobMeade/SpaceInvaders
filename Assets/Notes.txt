@@ -32,10 +32,6 @@ BUGS:
 			   left the CommandShip fly off the screen before it comes back for the abduction.
 
 	04/07
-	* BUG #16: If two invaders get hit, seemingly at the same time, two destroyed sound fxs play almost simultaneously, this creates the effect of the volume being louder
-			   Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
-
-	04/07
 	* BUG #17: CommandShip should spawn only once per wave.  Once the 7th column of invaders has left the MotherShip it seems to appear.  
 			   Remove random spawning ranges.  This may actually help to resolve Bug #15. 
 
@@ -138,3 +134,7 @@ COMPLETED:
 	* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.
 
 	* BUG #23: Stutter sound effect is too quite.  The .ogg files may need to be normalised, alternatively, consider raising the volume of this effect.
+
+	17/07
+	* BUG #16: If two invaders get hit, seemingly at the same time, two destroyed sound fxs play almost simultaneously, this creates the effect of the volume being louder
+			   Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
