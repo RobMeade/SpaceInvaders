@@ -25,6 +25,12 @@ public class GameController : MonoBehaviour
     private int _selectedGameIndex = 0;
 
 
+    public delegate void InvaderFormationFirstDescentEventHandler(object sender, EventArgs e);
+    public static event InvaderFormationFirstDescentEventHandler OnInvaderFormationFirstDescent;
+
+    public delegate void InvaderFormationHalfDestroyedEventHandler(object sender, EventArgs e);
+    public static event InvaderFormationHalfDestroyedEventHandler OnInvaderFormationHalfDestroyed;
+
     public delegate void InvaderFormationLandedEventHandler(object sender, EventArgs e);
     public static event InvaderFormationLandedEventHandler OnInvaderFormationLanded;
 
@@ -40,6 +46,9 @@ public class GameController : MonoBehaviour
     public delegate void PlayerAbductionCompleteEventHandler(object sender, EventArgs e);
     public static event PlayerAbductionCompleteEventHandler OnPlayerAbductionComplete;
 
+    public delegate void WaveCompleteEventHandler(object sender, EventArgs e);
+    public static event WaveCompleteEventHandler OnWaveComplete;
+
 
     private void AbductionComplete(object sender, EventArgs e)
     {
@@ -51,7 +60,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void ApplyPointsMultiplier(object sender, EventArgs e)
+    private void ApplyPointsMultiplier()
     {
         _invaderDestroyedPoints = _configuration.InvaderDestroyedPoints * _configuration.InvaderDescentPointsMultiplier;
     }
@@ -87,6 +96,27 @@ public class GameController : MonoBehaviour
         _invaderMotherShip.HaltAttack();
     }
 
+    private void InvaderDestroyed(object sender, InvaderFormationInvaderDestroyedEventArgs e)
+    {
+        if (e.RemainingInvaders == (e.InvadersPerWave / 2))
+        {
+            if(OnInvaderFormationHalfDestroyed != null)
+            {
+                OnInvaderFormationHalfDestroyed(this, EventArgs.Empty);
+            }
+        }
+    }
+
+    private void InvaderFormationFirstDescent(object sender, EventArgs e)
+    {
+        ApplyPointsMultiplier();
+
+        if (OnInvaderFormationFirstDescent != null)
+        {
+            OnInvaderFormationFirstDescent(this, EventArgs.Empty);
+        }
+    }
+
     private void InvaderFormationLanded(object sender, EventArgs e)
     {
         if (OnInvaderFormationLanded != null)
@@ -110,10 +140,11 @@ public class GameController : MonoBehaviour
         CommandShip.OnHit -= CommandShipHit;
         CommandShip.OnAbductionComplete -= AbductionComplete;
         InvaderFormation.OnFormationDestroyed -= RemovePointsMultiplier;
+        InvaderFormation.OnInvaderDestroyed -= InvaderDestroyed;
         InvaderFormation.OnInvaderHit -= InvaderHit;
         InvaderFormationMovementController.OnLanded -= InvaderFormationLanded;
-        InvaderFormationMovementController.OnFirstDescent -= ApplyPointsMultiplier;
-        InvaderMotherShip.OnDescentComplete -= RepositionPlayer;
+        InvaderFormationMovementController.OnFirstDescent -= InvaderFormationFirstDescent;
+        InvaderMotherShip.OnDescentComplete -= MotherShipDescentComplete;
         InvaderMotherShip.OnLanded -= MotherShipLanded;
         _player.OnDestroyed -= PlayerDestroyed;
         _player.OnHit -= PlayerHit;
@@ -128,10 +159,11 @@ public class GameController : MonoBehaviour
         CommandShip.OnHit += CommandShipHit;
         CommandShip.OnAbductionComplete += AbductionComplete;
         InvaderFormation.OnFormationDestroyed += RemovePointsMultiplier;
+        InvaderFormation.OnInvaderDestroyed += InvaderDestroyed;
         InvaderFormation.OnInvaderHit += InvaderHit;
         InvaderFormationMovementController.OnLanded += InvaderFormationLanded;
-        InvaderFormationMovementController.OnFirstDescent += ApplyPointsMultiplier;
-        InvaderMotherShip.OnDescentComplete += RepositionPlayer;
+        InvaderFormationMovementController.OnFirstDescent += InvaderFormationFirstDescent;
+        InvaderMotherShip.OnDescentComplete += MotherShipDescentComplete;
         InvaderMotherShip.OnLanded += MotherShipLanded;
         _player.OnDestroyed += PlayerDestroyed;
         _player.OnHit += PlayerHit;
@@ -192,7 +224,17 @@ public class GameController : MonoBehaviour
         _uiController.SetLives(_game.PlayerLives);
     }
 
-    private void RepositionPlayer(object sender, EventArgs e)
+    private void MotherShipDescentComplete(object sender, EventArgs e)
+    {
+        RepositionPlayer();
+
+        if(OnWaveComplete != null)
+        {
+            OnWaveComplete(this, EventArgs.Empty);
+        }
+    }
+
+    private void RepositionPlayer()
     {
         _player.Reposition();
     }

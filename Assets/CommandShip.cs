@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 
 using UnityEngine;
 
@@ -24,6 +23,7 @@ public class CommandShip : MonoBehaviour
     private CommandShipPlayerAbductionController _commandShipPlayerAbductionController = null;
 
     private CommandShipState _commandShipState = CommandShipState.Idle;
+    private bool _canLaunch = false;
 
 
     public delegate void HitEventHandler(object sender, EventArgs e);
@@ -33,7 +33,7 @@ public class CommandShip : MonoBehaviour
     public static event AbuctionCompleteEventHandler OnAbductionComplete;
 
 
-    public enum CommandShipState { Idle, PreparingToLaunch, Flying, Hit, Abducting };
+    public enum CommandShipState { Idle, PreparingToLaunch, Flying, Hit, Destroyed, Abducting };
 
 
     public CommandShipState State
@@ -44,11 +44,7 @@ public class CommandShip : MonoBehaviour
 
     private void Abduct(object sender, PlayerAbductionEventArgs e)
     {
-        // TODO: Consider that a command ship may already be "flying" and we should wait until it isn't
-
         _commandShipState = CommandShipState.Abducting;
-
-        gameObject.transform.position = _configuration.CommandShipSpawnPosition;
 
         _animator.SetBool("isAbductingPlayer", true);
 
@@ -59,13 +55,7 @@ public class CommandShip : MonoBehaviour
 
     private void AbductionComplete()
     {
-        _commandShipState = CommandShipState.Idle;
-
-        gameObject.transform.position = _configuration.CommandShipSpawnPosition;
-
-        _animator.SetBool("isAbductingPlayer", false);
-
-        _audioSource.Stop();
+        Respawn();
 
         if (OnAbductionComplete != null)
         {
@@ -90,24 +80,29 @@ public class CommandShip : MonoBehaviour
         _commandShipMovementController = GetComponent<CommandShipMovementController>();
         _commandShipPlayerAbductionController = GetComponent<CommandShipPlayerAbductionController>();
 
-        _animator.SetBool("isAlive", true);
+        Respawn();
     }
 
     private void Die()
     {
-        _audioSource.Stop();
+        _commandShipState = CommandShipState.Destroyed;
 
-        StartCoroutine(PrepareForLaunch());
+        Respawn();
+    }
+
+    private void DisableLaunch()
+    {
+        _canLaunch = false;
     }
 
     private void DisableLaunch(object sender, EventArgs e)
     {
-        StopAllCoroutines();
+        DisableLaunch();
     }
 
     private void EnableLaunch(object sender, EventArgs e)
     {
-        StartCoroutine(PrepareForLaunch());
+        _canLaunch = true;
     }
 
     private void Hit()
@@ -124,11 +119,14 @@ public class CommandShip : MonoBehaviour
         }
     }
 
-    private void Launch()
+    private void Launch(object sender, EventArgs e)
     {
-        _commandShipState = CommandShipState.Flying;
+        if (_canLaunch)
+        {
+            _commandShipState = CommandShipState.Flying;
 
-        _audioSource.Play();
+            _audioSource.Play();
+        }
     }
 
     private void OnDisable()
@@ -136,9 +134,12 @@ public class CommandShip : MonoBehaviour
         _animationEventController.OnAnimationComplete -= AnimationComplete;
         GameController.OnGameOver -= DisableLaunch;
         GameController.OnGameStarted -= EnableLaunch;
+        GameController.OnInvaderFormationFirstDescent -= DisableLaunch;
+        GameController.OnInvaderFormationHalfDestroyed -= Launch;
         GameController.OnInvaderFormationLanded -= DisableLaunch;
         GameController.OnPlayerAbduction -= Abduct;
         GameController.OnPlayerAbductionComplete -= EnableLaunch;
+        GameController.OnWaveComplete -= EnableLaunch;
     }
 
     private void OnEnable()
@@ -146,9 +147,12 @@ public class CommandShip : MonoBehaviour
         _animationEventController.OnAnimationComplete += AnimationComplete;
         GameController.OnGameOver += DisableLaunch;
         GameController.OnGameStarted += EnableLaunch;
+        GameController.OnInvaderFormationFirstDescent += DisableLaunch;
+        GameController.OnInvaderFormationHalfDestroyed += Launch;
         GameController.OnInvaderFormationLanded += DisableLaunch;
         GameController.OnPlayerAbduction += Abduct;
         GameController.OnPlayerAbductionComplete += EnableLaunch;
+        GameController.OnWaveComplete += EnableLaunch;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -161,10 +165,12 @@ public class CommandShip : MonoBehaviour
                 {
                     if (projectile)
                     {
+                        DisableLaunch();
                         Hit();
                     }
                     else if (collision.gameObject.layer == LayerMask.NameToLayer("Shredder"))
                     {
+                        DisableLaunch();
                         Die();
                     }
 
@@ -182,31 +188,18 @@ public class CommandShip : MonoBehaviour
         }
     }
 
-    private IEnumerator PrepareForLaunch()
+    private void Respawn()
     {
-        _commandShipState = CommandShipState.PreparingToLaunch;
+        _commandShipState = CommandShipState.Idle;
 
         gameObject.transform.position = _configuration.CommandShipSpawnPosition;
 
         _audioSource.pitch = _configuration.CommandShipDefaultAudioPitch;
+        _audioSource.Stop();
 
         _animator.SetBool("isAlive", true);
+        _animator.SetBool("isAbductingPlayer", false);
 
         _polygonCollider2D.enabled = true;
-
-        float launchTimer;
-
-        while (_commandShipState == CommandShipState.PreparingToLaunch)
-        {
-            launchTimer = UnityEngine.Random.Range(_configuration.CommandShipMinimumSpawnDelay, _configuration.CommandShipMaximumSpawnDelay);
-
-            yield return new WaitForSeconds(launchTimer);
-
-            if (_commandShipState == CommandShipState.PreparingToLaunch)
-            {
-                Launch();
-                StopAllCoroutines();
-            }
-        }
     }
 }

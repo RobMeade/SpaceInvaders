@@ -153,9 +153,9 @@ public class InvaderFormationMovementController : MonoBehaviour
         return bounds;
     }
 
-    private void InvaderDestroyed(object sender, EventArgs e)
+    private void InvaderDestroyed(object sender, InvaderFormationInvaderDestroyedEventArgs e)
     {
-        DetermineMovementVelocity(_invaderFormation.Invaders.Count);
+        DetermineMovementVelocity(e.RemainingInvaders);
     }
 
     private void InvaderHit(object sender, EventArgs e)

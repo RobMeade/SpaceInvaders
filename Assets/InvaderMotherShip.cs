@@ -67,20 +67,19 @@ public class InvaderMotherShip : MonoBehaviour
 
     private void DescendAndLaunchInvaderFormation(object sender, EventArgs e)
     {
+        // TODO:    This code gets interupted as the descent steps do not fully complete before the Landed event is raised.
+        //          As such, the DescentComplete event is never raised for the final (8th) descent.
+        //          This is useful in one case, as it prevents the player from being repositioned during the player abduction,
+        //          however, it also means that the PlayerAbductionComplete event needs to call EnableLaunch for the CommandShip
+        //          which is ordinarily taken care of through the DescentComplete event handling.
         if (!_hasLanded)
         {
             StartCoroutine(Descend());
         }
         else
         {
-
-            // the following should only happen AFTER the commandship sequence
-
-            // launches invaders after the mothership has landed
-            // how to fit in the commandship sequence?
             PrepareToLaunchInvaderFormation();
 
-            // repositions player - dont want this to happen for the commandship sequence
             if (OnDescentComplete != null)
             {
                 OnDescentComplete(this, EventArgs.Empty);
