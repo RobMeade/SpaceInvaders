@@ -137,14 +137,23 @@ public class InvaderMotherShip : MonoBehaviour
         LaunchInvaderFormation();
     }
 
-    private void InitiateAttack(object sender, EventArgs e)
+    private void GameStarted(object sender, EventArgs e)
     {
-        // TOOD: After testing Abduction sequence - uncomment the following line
-        // transform.position = _configuration.MotherShipSpawnPosition;
+        transform.position = _configuration.MotherShipSpawnPosition;
 
+        InitiateAttack();
+    }
+
+    private void InitiateAttack()
+    {
         DestroyExistingInvaderFormation();
 
         PrepareToLaunchInvaderFormation();
+    }
+
+    private void InitiateAttack(object sender, EventArgs e)
+    {
+        InitiateAttack();
     }
 
     private void LaunchInvaderFormation()
@@ -167,14 +176,14 @@ public class InvaderMotherShip : MonoBehaviour
 
     private void OnDisable()
     {
-        GameController.OnGameStarted -= InitiateAttack;
+        GameController.OnGameStarted -= GameStarted;
         GameController.OnPlayerAbductionComplete -= InitiateAttack;
         InvaderFormation.OnFormationDestroyed -= DescendAndLaunchInvaderFormation;
     }
 
     private void OnEnable()
     {
-        GameController.OnGameStarted += InitiateAttack;
+        GameController.OnGameStarted += GameStarted;
         GameController.OnPlayerAbductionComplete += InitiateAttack;
         InvaderFormation.OnFormationDestroyed += DescendAndLaunchInvaderFormation;
     }
