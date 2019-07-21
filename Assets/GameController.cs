@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void InvaderHit(object sender, EventArgs e)
+    private void InvaderHit(object sender, InvaderFormationInvaderHitEventArgs e)
     {
         _player.Score += _invaderDestroyedPoints;
         _uiController.SetScore(_player.Score);

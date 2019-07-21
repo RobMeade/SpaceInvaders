@@ -8,6 +8,7 @@ public class InvaderFormation : MonoBehaviour
 {
     private List<Invader> _invaders = new List<Invader>();
     private int _invadersPerWave = 0;
+    private int _invadersHit = 0;
 
 
     public delegate void CeaseFireEventHandler(object sender, EventArgs e);
@@ -22,7 +23,7 @@ public class InvaderFormation : MonoBehaviour
     public delegate void InvaderDestroyedEventHandler(object sender, InvaderFormationInvaderDestroyedEventArgs e);
     public static event InvaderDestroyedEventHandler OnInvaderDestroyed;
 
-    public delegate void InvaderHitEventHandler(object sender, EventArgs e);
+    public delegate void InvaderHitEventHandler(object sender, InvaderFormationInvaderHitEventArgs e);
     public static event InvaderHitEventHandler OnInvaderHit;
 
     public delegate void LastInvaderHitEventHandler(object sender, EventArgs e);
@@ -69,7 +70,7 @@ public class InvaderFormation : MonoBehaviour
 
         if (OnInvaderDestroyed != null)
         {
-            InvaderFormationInvaderDestroyedEventArgs invaderFormationInvaderDestroyedEventArgs = new InvaderFormationInvaderDestroyedEventArgs(_invadersPerWave, _invaders.Count);
+            InvaderFormationInvaderDestroyedEventArgs invaderFormationInvaderDestroyedEventArgs = new InvaderFormationInvaderDestroyedEventArgs(_invadersPerWave, _invadersHit, _invaders.Count);
 
             OnInvaderDestroyed(this, invaderFormationInvaderDestroyedEventArgs);
         }
@@ -87,6 +88,8 @@ public class InvaderFormation : MonoBehaviour
 
     private void InvaderHit(object sender, EventArgs e)
     {
+        _invadersHit++;
+
         if (_invaders.Count == 1)
         {
             if (OnLastInvaderHit != null)
@@ -97,7 +100,7 @@ public class InvaderFormation : MonoBehaviour
 
         if (OnInvaderHit != null)
         {
-            OnInvaderHit(this, EventArgs.Empty);
+            OnInvaderHit(this, new InvaderFormationInvaderHitEventArgs(_invadersHit));
         }
     }
 
