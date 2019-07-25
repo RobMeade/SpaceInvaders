@@ -71,6 +71,11 @@ public class AudioController : MonoBehaviour
         _audioSource.Stop();
     }
 
+    private void InvaderFormationLaunch(object sender, EventArgs e)
+    {
+        _audioSource.Play();
+    }
+
     private void InvaderFormationResumeAttack(object sender, EventArgs e)
     {
         _audioSource.Play();
@@ -107,6 +112,7 @@ public class AudioController : MonoBehaviour
         InvaderFormation.OnLastInvaderHit -= InvaderFormationLastInvaderHit;
         InvaderFormation.OnResumeAttack -= InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent -= InvaderFormationDescent;
+        InvaderFormationMovementController.OnLaunch -= InvaderFormationLaunch;
         InvaderFormationMovementController.OnVelocityIncreased -= InvaderFormationVelocityIncreased;
     }
 
@@ -119,11 +125,7 @@ public class AudioController : MonoBehaviour
         InvaderFormation.OnLastInvaderHit += InvaderFormationLastInvaderHit;
         InvaderFormation.OnResumeAttack += InvaderFormationResumeAttack;
         InvaderFormationMovementController.OnDescent += InvaderFormationDescent;
+        InvaderFormationMovementController.OnLaunch += InvaderFormationLaunch;
         InvaderFormationMovementController.OnVelocityIncreased += InvaderFormationVelocityIncreased;
-    }
-
-    private void Start()
-    {
-        _audioSource.Play();
     }
 }

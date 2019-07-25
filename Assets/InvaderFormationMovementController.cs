@@ -20,6 +20,7 @@ public class InvaderFormationMovementController : MonoBehaviour
     private bool _hasMadeFirstDescent = false;
     private bool _hasLanded = false;
     private bool _canMove = false;
+    private bool _hasInitiatedLaunch = false;
 
 
     public delegate void DescentEventHandler(object sender, EventArgs e);
@@ -30,6 +31,9 @@ public class InvaderFormationMovementController : MonoBehaviour
 
     public delegate void LandedEventHandler(object sender, EventArgs e);
     public static event LandedEventHandler OnLanded;
+
+    public delegate void LaunchEventHandler(object sender, EventArgs e);
+    public static event LaunchEventHandler OnLaunch;
 
     public delegate void VelocityIncreasedEventHandler(object sender, InvaderFormationVelocityIncreasedEventArgs e);
     public static event VelocityIncreasedEventHandler OnVelocityIncreased;
@@ -206,10 +210,21 @@ public class InvaderFormationMovementController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlayspaceBoundary playspaceBoundary = collision.gameObject.GetComponent<PlayspaceBoundary>();
+        InvaderMotherShip invaderMotherShip = collision.gameObject.GetComponent<InvaderMotherShip>();
 
         if (playspaceBoundary != null)
         {
             PlayspaceCollision(playspaceBoundary.Type);
+        }
+
+        if (invaderMotherShip)
+        {
+            if (!_hasInitiatedLaunch && OnLaunch != null)
+            {
+                _hasInitiatedLaunch = true;
+
+                OnLaunch(this, EventArgs.Empty);
+            }
         }
     }
 

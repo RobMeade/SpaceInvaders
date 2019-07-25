@@ -59,6 +59,7 @@ public class InvaderFormationAttackController : MonoBehaviour
         InvaderFormation.OnCeaseFire -= StopAttacking;
         InvaderFormation.OnHaltAttack -= StopAttacking;
         InvaderFormation.OnResumeAttack -= StartAttacking;
+        InvaderFormationMovementController.OnLaunch -= StartAttacking;
     }
 
     private void OnEnable()
@@ -68,6 +69,7 @@ public class InvaderFormationAttackController : MonoBehaviour
         InvaderFormation.OnCeaseFire += StopAttacking;
         InvaderFormation.OnHaltAttack += StopAttacking;
         InvaderFormation.OnResumeAttack += StartAttacking;
+        InvaderFormationMovementController.OnLaunch += StartAttacking;
     }
 
     private void PrepareToAttack()
@@ -84,11 +86,6 @@ public class InvaderFormationAttackController : MonoBehaviour
         e.Projectile.OnDestroyed -= ProjectileDestroyed;
 
         PrepareToAttack();
-    }
-
-    private void Start()
-    {
-        StartAttacking();
     }
 
     private void StartAttacking()

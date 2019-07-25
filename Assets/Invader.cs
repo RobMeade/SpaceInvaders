@@ -79,16 +79,12 @@ public class Invader : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Projectile projectile = collision.gameObject.GetComponent<Projectile>();
+        InvaderMotherShip invaderMotherShip = collision.gameObject.GetComponent<InvaderMotherShip>();
 
         if (projectile)
         {
             Hit();
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        InvaderMotherShip invaderMotherShip = collision.gameObject.GetComponent<InvaderMotherShip>();
 
         if (invaderMotherShip)
         {

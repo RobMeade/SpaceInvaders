@@ -137,3 +137,8 @@ COMPLETED:
 	22/07
 	* BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.  This is because the count of invaders is still > 1 because
 			   the previously hit invaders animation hasn't finished which calls the code to reduce the count.
+	
+	25/07
+	* BUG #26: When launching, the invaders fire through the MotherShip
+
+	* BUG #27: The marching sound effect for the invaders begins too early, before the player sees the invaders emerging from the MotherShip
