@@ -26,14 +26,6 @@ Features (Summary):
 
 
 BUGS:
-	10/07
-	* BUG #19: When the first column of invaders are destroyed quickly, the InvaderFormation changes direction and disappears off the screen.
-			   When the first column of invaders are destroyed very quickly, as they are emerging from the mothership, the BoxCollider2D on the InvaderFormation resizes
-			   and is no longer passed the first PlaySpaceBoundary, when it makes contact, the code then triggers the reverse direction call.
-			   May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
-			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
-			   they made contact with the first PlaySpaceBoundary.
-
 	11/07
 	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
 			   Once the player is respawned, these projectiles are cleared from the screen.
@@ -142,3 +134,10 @@ COMPLETED:
 	* BUG #26: When launching, the invaders fire through the MotherShip
 
 	* BUG #27: The marching sound effect for the invaders begins too early, before the player sees the invaders emerging from the MotherShip
+
+	* BUG #19: When the first column of invaders are destroyed quickly, the InvaderFormation changes direction and disappears off the screen.
+			   When the first column of invaders are destroyed very quickly, as they are emerging from the mothership, the BoxCollider2D on the InvaderFormation resizes
+			   and is no longer passed the first PlaySpaceBoundary, when it makes contact, the code then triggers the reverse direction call.
+			   May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
+			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
+			   they made contact with the first PlaySpaceBoundary.
