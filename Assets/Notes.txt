@@ -26,9 +26,7 @@ Features (Summary):
 
 
 BUGS:
-	11/07
-	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
-			   Once the player is respawned, these projectiles are cleared from the screen.
+
 
 
 FEATURES:
@@ -141,3 +139,6 @@ COMPLETED:
 			   May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
 			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
 			   they made contact with the first PlaySpaceBoundary.
+
+	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
+			   Once the player is respawned, these projectiles are cleared from the screen.

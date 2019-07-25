@@ -139,7 +139,7 @@ public class InvaderMotherShip : MonoBehaviour
 
     private void GameStarted(object sender, EventArgs e)
     {
-        transform.position = _configuration.MotherShipSpawnPosition;
+        //transform.position = _configuration.MotherShipSpawnPosition;
 
         InitiateAttack();
     }
