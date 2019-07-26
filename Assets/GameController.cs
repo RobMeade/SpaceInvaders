@@ -34,6 +34,9 @@ public class GameController : MonoBehaviour
     public delegate void InvaderFormationLandedEventHandler(object sender, EventArgs e);
     public static event InvaderFormationLandedEventHandler OnInvaderFormationLanded;
 
+    public delegate void InvaderFormationSpawnedEventHandler(object sender, InvaderFormationSpawnedEventArgs e);
+    public static event InvaderFormationSpawnedEventHandler OnInvaderFormationSpawned;
+
     public delegate void GameOverEventHandler(object sender, EventArgs e);
     public static event GameOverEventHandler OnGameOver;
 
@@ -52,8 +55,6 @@ public class GameController : MonoBehaviour
 
     private void AbductionComplete(object sender, EventArgs e)
     {
-        // TODO: Consider some kind of short delay?
-
         if (OnPlayerAbductionComplete != null)
         {
             OnPlayerAbductionComplete(this, EventArgs.Empty);
@@ -100,7 +101,7 @@ public class GameController : MonoBehaviour
     {
         if (e.RemainingInvaders == (e.InvadersPerWave / 2))
         {
-            if(OnInvaderFormationHalfDestroyed != null)
+            if (OnInvaderFormationHalfDestroyed != null)
             {
                 OnInvaderFormationHalfDestroyed(this, EventArgs.Empty);
             }
@@ -145,6 +146,7 @@ public class GameController : MonoBehaviour
         InvaderFormationMovementController.OnLanded -= InvaderFormationLanded;
         InvaderFormationMovementController.OnFirstDescent -= InvaderFormationFirstDescent;
         InvaderMotherShip.OnDescentComplete -= MotherShipDescentComplete;
+        InvaderMotherShip.OnInvaderFormationSpawned -= MotherShipInvaderFormationSpawned;
         InvaderMotherShip.OnLanded -= MotherShipLanded;
         _player.OnDestroyed -= PlayerDestroyed;
         _player.OnHit -= PlayerHit;
@@ -164,9 +166,28 @@ public class GameController : MonoBehaviour
         InvaderFormationMovementController.OnLanded += InvaderFormationLanded;
         InvaderFormationMovementController.OnFirstDescent += InvaderFormationFirstDescent;
         InvaderMotherShip.OnDescentComplete += MotherShipDescentComplete;
+        InvaderMotherShip.OnInvaderFormationSpawned += MotherShipInvaderFormationSpawned;
         InvaderMotherShip.OnLanded += MotherShipLanded;
         _player.OnDestroyed += PlayerDestroyed;
         _player.OnHit += PlayerHit;
+    }
+
+    private void MotherShipDescentComplete(object sender, EventArgs e)
+    {
+        RepositionPlayer();
+
+        if (OnWaveComplete != null)
+        {
+            OnWaveComplete(this, EventArgs.Empty);
+        }
+    }
+
+    private void MotherShipInvaderFormationSpawned(object sender, InvaderFormationSpawnedEventArgs e)
+    {
+        if (OnInvaderFormationSpawned != null)
+        {
+            OnInvaderFormationSpawned(this, e);
+        }
     }
 
     private void MotherShipLanded(object sender, EventArgs e)
@@ -224,15 +245,6 @@ public class GameController : MonoBehaviour
         _uiController.SetLives(_game.PlayerLives);
     }
 
-    private void MotherShipDescentComplete(object sender, EventArgs e)
-    {
-        RepositionPlayer();
-
-        if(OnWaveComplete != null)
-        {
-            OnWaveComplete(this, EventArgs.Empty);
-        }
-    }
 
     private void RepositionPlayer()
     {
@@ -259,7 +271,7 @@ public class GameController : MonoBehaviour
 
     private void SelectNumberOfPlayers(object sender, EventArgs e)
     {
-        // TODO: Will be used for two player support
+        // NOTE: Will be used for two player support
     }
 
     private void SetGame()

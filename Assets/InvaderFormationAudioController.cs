@@ -88,6 +88,14 @@ public class InvaderFormationAudioController : MonoBehaviour
         _audioSource.Play();
     }
 
+    private void InvaderFormationSpawned(object sender, InvaderFormationSpawnedEventArgs e)
+    {
+        if (e.DescentsPerformed > 0)
+        {
+            _audioSource.volume += e.DescentsPerformed * _configuration.InvaderFormationDescentAudioVolumeIncrease;
+        }
+    }
+
     private void InvaderFormationVelocityIncreased(object sender, InvaderFormationVelocityIncreasedEventArgs e)
     {
         if (e.Velocity == _configuration.InvaderFormationMovementVelocitySlow)
@@ -114,6 +122,7 @@ public class InvaderFormationAudioController : MonoBehaviour
     {
         GameController.OnGameOver -= GameOver;
         GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
+        GameController.OnInvaderFormationSpawned -= InvaderFormationSpawned;
         InvaderFormation.OnFormationDestroyed -= InvaderFormationDestroyed;
         InvaderFormation.OnHaltAttack -= InvaderFormationHaltAttack;
         InvaderFormation.OnLastInvaderHit -= InvaderFormationLastInvaderHit;
@@ -127,6 +136,7 @@ public class InvaderFormationAudioController : MonoBehaviour
     {
         GameController.OnGameOver += GameOver;
         GameController.OnInvaderFormationLanded += InvaderFormationLanded;
+        GameController.OnInvaderFormationSpawned += InvaderFormationSpawned;
         InvaderFormation.OnFormationDestroyed += InvaderFormationDestroyed;
         InvaderFormation.OnHaltAttack += InvaderFormationHaltAttack;
         InvaderFormation.OnLastInvaderHit += InvaderFormationLastInvaderHit;

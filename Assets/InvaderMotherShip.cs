@@ -31,6 +31,9 @@ public class InvaderMotherShip : MonoBehaviour
     public delegate void LandedEventHandler(object sender, EventArgs e);
     public static event LandedEventHandler OnLanded;
 
+    public delegate void InvaderFormationSpawnedEventHandler(object sender, InvaderFormationSpawnedEventArgs e);
+    public static event InvaderFormationSpawnedEventHandler OnInvaderFormationSpawned;
+
     public delegate void ResumeAttackEventHandler(object sender, EventArgs e);
     public static event ResumeAttackEventHandler OnResumeAttack;
 
@@ -67,7 +70,7 @@ public class InvaderMotherShip : MonoBehaviour
 
     private void DescendAndLaunchInvaderFormation(object sender, EventArgs e)
     {
-        // TODO:    This code gets interupted as the descent steps do not fully complete before the Landed event is raised.
+        // NOTE:    This code gets interupted as the descent steps do not fully complete before the Landed event is raised.
         //          As such, the DescentComplete event is never raised for the final (8th) descent.
         //          This is useful in one case, as it prevents the player from being repositioned during the player abduction,
         //          however, it also means that the PlayerAbductionComplete event needs to call EnableLaunch for the CommandShip
@@ -139,7 +142,7 @@ public class InvaderMotherShip : MonoBehaviour
 
     private void GameStarted(object sender, EventArgs e)
     {
-        //transform.position = _configuration.MotherShipSpawnPosition;
+        transform.position = _configuration.MotherShipSpawnPosition;
 
         InitiateAttack();
     }
@@ -162,16 +165,14 @@ public class InvaderMotherShip : MonoBehaviour
 
         _invaderFormation = Instantiate(_invaderFormationPrefab, launchPosition, Quaternion.identity);
 
-        // TODO: I really dont like this being here!
-        if (_descentsPerformed > 0)
+        if (OnInvaderFormationSpawned != null)
         {
-            _invaderFormation.GetComponent<AudioSource>().volume += _descentsPerformed * _configuration.InvaderFormationDescentAudioVolumeIncrease;
+            InvaderFormationSpawnedEventArgs invaderFormationSpawnedEventArgs = new InvaderFormationSpawnedEventArgs(_descentsPerformed);
+
+            OnInvaderFormationSpawned(this, invaderFormationSpawnedEventArgs);
         }
 
-        // TODO: Could throw an error due to assumption of component
-        //_invaderFormation.GetComponent<InvaderFormationMovementController>().Velocity = _configuration.InvaderFormationVelocity;
-
-        // TODO: Could use the Game parameter (overloaded method of same name) to set the invader formations shooting pattern
+        // NOTE: Could use the Game parameter (overloaded method of same name) to set the invader formations shooting pattern
     }
 
     private void OnDisable()
