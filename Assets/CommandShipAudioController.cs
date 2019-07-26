@@ -12,15 +12,43 @@ public class CommandShipAudioController : MonoBehaviour
     private AudioSource _audioSource = null;
     private Coroutine _increasePitch = null;
 
+    float _playerAbductionMaximumPitchDelta = 0f;
+
 
     private void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
+
+        _playerAbductionMaximumPitchDelta = _configuration.CommandShipDefaultAudioPitch - _configuration.CommandShipDescentAudioMinimumPitch;
     }
 
     private void BeginDeathSequence()
     {
-        _increasePitch = StartCoroutine(IncreaseAudioPitch());
+        _increasePitch = StartCoroutine(DeathSequence());
+    }
+
+    private void CommandShipAscend(object sender, CommandShipAscendEventArgs e)
+    {
+        float pitchDelta = _playerAbductionMaximumPitchDelta / e.Step * Time.deltaTime;
+
+        IncreasePitch(pitchDelta, _configuration.CommandShipAscentAudioMaximumPitch);
+    }
+
+    private void CommandShipDescend(object sender, CommandShipDescendEventArgs e)
+    {
+        float pitchDelta = _playerAbductionMaximumPitchDelta / e.Step * Time.deltaTime;
+
+        DecreasePitch(pitchDelta, _configuration.CommandShipDescentAudioMinimumPitch);
+    }
+
+    private void DecreasePitch(float decrease, float minPitch)
+    {
+        _audioSource.pitch -= decrease;
+
+        if (_audioSource.pitch <= minPitch)
+        {
+            _audioSource.pitch = minPitch;
+        }
     }
 
     private void EndDeathSequence()
@@ -36,7 +64,17 @@ public class CommandShipAudioController : MonoBehaviour
         _audioSource.Stop();
     }
 
-    private IEnumerator IncreaseAudioPitch()
+    private void IncreasePitch(float increase, float maxPitch)
+    {
+        _audioSource.pitch += increase;
+
+        if (_audioSource.pitch >= maxPitch)
+        {
+            _audioSource.pitch = maxPitch;
+        }
+    }
+
+    private IEnumerator DeathSequence()
     {
         while (true)
         {
@@ -53,12 +91,16 @@ public class CommandShipAudioController : MonoBehaviour
 
     private void OnDisable()
     {
+        CommandShipPlayerAbductionController.OnCommandShipAscend -= CommandShipAscend;
+        CommandShipPlayerAbductionController.OnCommandShipDescend -= CommandShipDescend;
         GameController.OnGameOver -= GameOver;
         GameController.OnInvaderFormationLanded -= InvaderFormationLanded;
     }
 
     private void OnEnable()
     {
+        CommandShipPlayerAbductionController.OnCommandShipAscend += CommandShipAscend;
+        CommandShipPlayerAbductionController.OnCommandShipDescend += CommandShipDescend;
         GameController.OnGameOver += GameOver;
         GameController.OnInvaderFormationLanded += InvaderFormationLanded;
     }
