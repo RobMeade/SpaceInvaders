@@ -29,12 +29,8 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _lives = null;
 
-
-    // TODO: This script knows too much about the copyright text object, these should be moved to its own script
-    private float _deltaX = 0f;
-    private float _newXPosition = 0f;
-
     private Vector3 _copyrightStartPosition;
+
 
     public delegate void SystemResetButtonClickEventHandler(object sender, EventArgs e);
     public static event SystemResetButtonClickEventHandler OnSystemResetButtonClicked;
@@ -136,11 +132,9 @@ public class UIController : MonoBehaviour
 
     private void ScrollCopyrightText()
     {
-        _deltaX = Time.deltaTime * _configuration.CopyrightTextScrollSpeed;
+        float newPositionX = _copyright.transform.position.x - _configuration.CopyrightTextScrollSpeed * Time.deltaTime;
 
-        _newXPosition = _copyright.transform.position.x - _deltaX;
-
-        _copyright.transform.position = new Vector3(_newXPosition, _copyrightStartPosition.y, 0f);
+        _copyright.transform.position = new Vector3(newPositionX, _copyrightStartPosition.y, 0f);
 
         if (_copyright.transform.position.x <= 0f)
         {
@@ -173,7 +167,6 @@ public class UIController : MonoBehaviour
     {
         canvas.gameObject.SetActive(!canvas.gameObject.activeSelf);
     }
-
 
     private void Update()
     {
