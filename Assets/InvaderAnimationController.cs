@@ -75,10 +75,9 @@ public class InvaderAnimationController : MonoBehaviour
 
     private void StartAnimation()
     {
-        // TODO: Consider using _animator.StopPlayBack() instead of disabling component
-        if (_animator.enabled == false)
+        if (_animator.speed == 0f)
         {
-            _animator.enabled = true;
+            _animator.speed = 1f;
         }
     }
 
@@ -86,8 +85,7 @@ public class InvaderAnimationController : MonoBehaviour
     {
         if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Moving"))
         {
-            // TODO: Consider using _animator.StopPlayBack() instead of disabling component
-            _animator.enabled = false;
+            _animator.speed = 0f;
         }
     }
 }
