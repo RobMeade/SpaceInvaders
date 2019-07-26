@@ -1,14 +1,9 @@
 ﻿using System;
 
 using UnityEngine;
-using UnityEngine.Audio;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioController : MonoBehaviour
+public class InvaderFormationAudioController : MonoBehaviour
 {
-    // TODO: Consider using this component to AddComponent<AudioSource>
-    //       will then need the ability to set the appropriate AudioClip
-
     [SerializeField]
     private Configuration _configuration = null;
 
@@ -35,9 +30,22 @@ public class AudioController : MonoBehaviour
         _audioSource.Stop();
     }
 
+
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        AddAudioSourceComponent();
+    }
+
+    private void AddAudioSourceComponent()
+    {
+        _audioSource = gameObject.AddComponent<AudioSource>();
+
+        _audioSource.clip = _movementSlowest;
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = true;
+
+        _audioSource.volume = _configuration.InvaderFormationDefaultAudioVolume;
+        _audioSource.spatialBlend = 0f;
     }
 
     private void GameOver(object sender, EventArgs e)
@@ -52,7 +60,6 @@ public class AudioController : MonoBehaviour
 
     private void InvaderFormationDestroyed(object sender, EventArgs e)
     {
-        // TODO: It would be better if this wasn't using a reference to the Camera
         AudioSource.PlayClipAtPoint(_formationDestroyedSFX, Camera.main.transform.position);
     }
 

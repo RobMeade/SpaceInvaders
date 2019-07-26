@@ -99,6 +99,9 @@ public class Configuration : ScriptableObject
     private Vector2 _invaderFormationMovementVelocityVeryFast = new Vector2(4f, 0.25f);
 
     [SerializeField]
+    private float _invaderFormationDefaultAudioVolume = 0.5f;
+
+    [SerializeField]
     private float _invaderFormationDescentAudioVolumeIncrease = 0.0625f;
 
 
@@ -274,6 +277,11 @@ public class Configuration : ScriptableObject
     public Vector2 InvaderFormationMovementVelocityVeryFast
     {
         get { return _invaderFormationMovementVelocityVeryFast; }
+    }
+
+    public float InvaderFormationDefaultAudioVolume
+    {
+        get { return _invaderFormationDefaultAudioVolume; }
     }
 
     public float InvaderFormationDescentAudioVolumeIncrease
