@@ -68,62 +68,25 @@ public class InvaderFormationMovementController : MonoBehaviour
         gameObject.transform.position = new Vector2(xPosition, yPosition);
     }
 
-    // TODO: Refactor, too much duplication
     private void DetermineMovementVelocity(int invadersHit, int invadersRemaining)
     {
         if (invadersHit < 48)
         {
             if (invadersRemaining > 24)
             {
-                if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVerySlow.x))
-                {
-                    SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVerySlow);
-
-                    if (OnVelocityIncreased != null)
-                    {
-                        InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityVerySlow);
-                        OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
-                    }
-                }
+                IncreaseMovementVelocity(_configuration.InvaderFormationMovementVelocityVerySlow);
             }
             else if (invadersRemaining <= 24 && invadersRemaining > 12)
             {
-                if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocitySlow.x))
-                {
-                    SetMovementVelocity(_configuration.InvaderFormationMovementVelocitySlow);
-
-                    if (OnVelocityIncreased != null)
-                    {
-                        InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocitySlow);
-                        OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
-                    }
-                }
+                IncreaseMovementVelocity(_configuration.InvaderFormationMovementVelocitySlow);
             }
             else if (invadersRemaining <= 12 && invadersRemaining > 1)
             {
-                if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityFast.x))
-                {
-                    SetMovementVelocity(_configuration.InvaderFormationMovementVelocityFast);
-
-                    if (OnVelocityIncreased != null)
-                    {
-                        InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityFast);
-                        OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
-                    }
-                }
+                IncreaseMovementVelocity(_configuration.InvaderFormationMovementVelocityFast);
             }
             else if (invadersRemaining == 1)
             {
-                if (Mathf.Abs(_velocity.x) != Mathf.Abs(_configuration.InvaderFormationMovementVelocityVeryFast.x))
-                {
-                    SetMovementVelocity(_configuration.InvaderFormationMovementVelocityVeryFast);
-
-                    if (OnVelocityIncreased != null)
-                    {
-                        InvaderFormationVelocityIncreasedEventArgs invaderFormationVelocityIncreasedEventArgs = new InvaderFormationVelocityIncreasedEventArgs(_configuration.InvaderFormationMovementVelocityVeryFast);
-                        OnVelocityIncreased(this, invaderFormationVelocityIncreasedEventArgs);
-                    }
-                }
+                IncreaseMovementVelocity(_configuration.InvaderFormationMovementVelocityVeryFast);
             }
         }
     }
@@ -155,6 +118,19 @@ public class InvaderFormationMovementController : MonoBehaviour
         }
 
         return bounds;
+    }
+
+    private void IncreaseMovementVelocity(Vector2 velocity)
+    {
+        if (Mathf.Abs(_velocity.x) != Mathf.Abs(velocity.x))
+        {
+            SetMovementVelocity(velocity);
+
+            if (OnVelocityIncreased != null)
+            {
+                OnVelocityIncreased(this, new InvaderFormationVelocityIncreasedEventArgs(velocity));
+            }
+        }
     }
 
     private void InvaderDestroyed(object sender, InvaderFormationInvaderDestroyedEventArgs e)
