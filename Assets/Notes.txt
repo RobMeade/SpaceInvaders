@@ -1,22 +1,27 @@
 ﻿Notes: 
 
 Shows two player text and selected player indication: https://www.youtube.com/watch?v=7VdNEpE29vQ
-After the rocket ship lands, the bottom two rows of invaders do not shoot (only tested on game 1)
-
 
 RESEARCH:
-	09/05
-	Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
 
-	12/05
-	Space invaders fire only from the column closest to the player, in most cases the one above the player.  If the player
-	is off to the extreme left or right then the left/right most column will fire.  
+09/05
+* Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
 
-	Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the
-	invader in the third row will be the invader that fires.
 
-	11/07
-	Does the number of remaining Invaders influence their rate of fire?
+12/05
+* Space invaders fire only from the column closest to the player, in most cases the one above the player.  
+
+If the player is off to the extreme left or right then the left/right most column will fire.  
+Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the invader in the third row will be the invader that fires.
+
+
+30/07
+
+* After the rocket ship lands, the bottom two rows of invaders do not shoot (only tested on game 1)
+
+It looks like this may only be until the InvaderFormation descends, after their first descent, they can fire again.  
+
+Needs testing
 
 
 Features (Summary):
@@ -31,114 +36,148 @@ BUGS:
 
 FEATURES:
 
-	03/03
-	* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
+03/03
+* FEATURE #1: Could do with brief pause before lowering mothership (lock player controls?)
 
 
 
 COMPLETED:
 
-	25/03
-	* BUG #10: The event which is triggered when the MotherShip descends is, by design, no longer raised once the MotherShip has landed, however, this event is being 
-			   used to determine when to spawn the next InvaderFormation. 
-			 T  he result of this is that no further InvaderFormations are spawned once the MotherShip has landed.
+25/03
+* BUG #10: The event which is triggered when the MotherShip descends is, by design, no longer raised once the MotherShip has landed.  
 
-	27/03
-	* BUG #4: Under a certain circumstance the InvaderFormation marches off the screen.  I think this is where the left/right most invader is destroyed, it 
-		      plays the Destroyed animation and turns off the collider, I think this may be allowing the InvaderFormation to step over/passed the boundary which
-		      would ordinarily send it moving in the opposite direction.  Needs testing.
+This event, however, is being used to determine when to spawn the next InvaderFormation.
+The result of this is that no further InvaderFormations are spawned once the MotherShip has landed.
 
-	28/03
-	* BUG #12: **Research** Does the player get respawned at a specific spawn position every life, or just where they were when they died?
 
-	03/04
-	* BUG #5: The rate of fire for invaders increases as they get closer to the planet as the only thing controlling when they can shoot next is whether a 
-		    projectile is currently in play.  A minimum firing rate needs to be considered also.
+27/03
+* BUG #4: Under a certain circumstance the InvaderFormation marches off the screen.
 
-	* BUG #11: Determine both Game Over conditions (out of lives / invaders landed) - break down what should happen under each condition, determine how to support both
-			   with a tidy end game / ui
+I think this is where the left/right most invader is destroyed, it plays the Destroyed animation and turns off the collider.  
+I think this may be allowing the InvaderFormation to step over/passed the boundary which would ordinarily send it moving in the opposite direction.  
+Needs testing.
 
-	06/04
-	* FEATURE #3: Consider create a separate class for each event handler, deriving from a base class, which handles EventArgs.
-				  All EventHandlers can then send references to sender and any arguments required.
 
-	12/04
-	* BUG #13: Player needs to be repositioned at its spawn point when mothership has completed its descent. Need to check whether this is the case after
-			each wave is destroyed after the mothership has completed descended too.
+28/03
+* BUG #12: **Research** Does the player get respawned at a specific spawn position every life, or just where they were when they died?
 
-	18/04
-	* FEATURE #2: The CommandShip doesn't need to be "destroyed" when it reaches the shredder or is shot.  It could just reposition back off screen.  Instead of
-				  randomising the spawning, I could just randomise when it moves. This would safe destroy/instantiating and object.
 
-	24/04
-	* FEATURE #4: Before start is pressed, the planet has "Space Invaders*" in the centre, with the scrolling text stating "(C) Copyright Atari 1980.  * Indicates TM of Taito America Corp."
+03/04
+* BUG #5: The rate of fire for invaders increases as they get closer to the planet as the only thing controlling when they can shoot next is whether a projectile is currently in play.  
 
-	29/04
-	* BUG #14: Replace all hard coded values across all classes with a reference to their property within the configuration class
+A minimum firing rate needs to be considered also.
 
-	02/05
-	* FEATURE #5: At the end of the 8th wave, the CommandShip comes down and takes your ship, need to check respawn position and any other effects of this feature (e.g. extra life?)
+* BUG #11: Determine both Game Over conditions (out of lives / invaders landed) - break down what should happen under each condition, determine how to support both with a tidy end game / ui
 
-	12/05
-	* FEATURE #9: Quit game (System Reset - darker brown)
 
-	16/05
-	* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
+06/04
+* FEATURE #3: Consider create a separate class for each event handler, deriving from a base class, which handles EventArgs. 
 
-	25/06
-	* FEATURE #8: Invader formation movement speed - increases when invaders are reduced, first when the count reaches 24, second when the count reaches 12, 
-				finally when the count reaches 1
-				Need to research speed increases - consider recording video and using playback speed to calculate rate?
+All EventHandlers can then send references to sender and any arguments required.
 
-	06/07
-	* FEATURE #7: Enhanced sound effects
 
-	10/07
-	* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+12/04
+* BUG #13: Player needs to be repositioned at its spawn point when mothership has completed its descent. 
 
-	* FEATURE #7: Command ship explosion - slightly different sound
+Need to check whether this is the case after each wave is destroyed after the mothership has completed descended too.
 
-	16/07
-	* BUG #26: End Game, when the player loses all of their lives the menu doesn't appear until the remaining invaders have landed on the planet.
 
-	* BUG #24: When the player loses their last life, the CommandShip, if present, continues to fly off the screen but has no audio.  The invaders continue to march, but do not shoot, nor have any audio.
+18/04
+* FEATURE #2: The CommandShip doesn't need to be "destroyed" when it reaches the shredder or is shot.  It could just reposition back off screen.  
 
-	* BUG #22: CommandShip stops moving when the InvaderFormation lands, but the CommandShip audio continues to play.  should the CommandShip still move off the screen (as it does when
-			   the player dies) or, should it stop, but have the audio stop also.
+Instead of randomising the spawning, I could just randomise when it moves. This would safe destroy/instantiating and object.
 
-	* BUG #20: InvaderFormation continues to play marching sound effect even when the player has been hit/destroyed.
 
-	* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.
+24/04
+* FEATURE #4: Before start is pressed, the planet has "Space Invaders*" in the centre, with the scrolling text stating "(C) Copyright Atari 1980.  * Indicates TM of Taito America Corp."
 
-	* BUG #23: Stutter sound effect is too quite.  The .ogg files may need to be normalised, alternatively, consider raising the volume of this effect.
 
-	17/07
-	* BUG #16: If two invaders get hit, seemingly at the same time, two destroyed sound fxs play almost simultaneously, this creates the effect of the volume being louder
-			   Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
+29/04
+* BUG #14: Replace all hard coded values across all classes with a reference to their property within the configuration class
 
-	20/07
-	* BUG #15: If the CommandShip appears near the end of a wave and is destroyed, the abduction sequence begins with the CommandShip in its dying animation
-			   and subsequently it disappears.  Need to consider either preventing the CommandShip from spawning when there are only a few invaders left, or
-			   left the CommandShip fly off the screen before it comes back for the abduction.
 
-	* BUG #17: CommandShip should spawn only once per wave.  Once the 7th column of invaders has left the MotherShip it seems to appear.  
-			   Remove random spawning ranges.  This may actually help to resolve Bug #15.
+02/05
+* FEATURE #5: At the end of the 8th wave, the CommandShip comes down and takes your ship, need to check respawn position and any other effects of this feature (e.g. extra life?)
+
+
+12/05
+* FEATURE #9: Quit game (System Reset - darker brown)
+
+
+16/05
+* FEATURE #6: Sound FX - add basic sound effects for player explosion, invader explosion, command ship explosion, invader flying, command ship flying
+
+25/06
+* FEATURE #8: Invader formation movement speed - increases when invaders are reduced;
+
+first when the count reaches 24, second when the count reaches 12, finally when the count reaches 1.  
+
+Need to research speed increases - consider recording video and using playback speed to calculate rate?
+
+
+06/07
+* FEATURE #7: Enhanced sound effects
+
+
+10/07
+* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+
+* FEATURE #7: Command ship explosion - slightly different sound
+
+
+16/07
+* BUG #26: End Game, when the player loses all of their lives the menu doesn't appear until the remaining invaders have landed on the planet.
+
+* BUG #24: When the player loses their last life, the CommandShip, if present, continues to fly off the screen but has no audio.
+
+The invaders continue to march, but do not shoot, nor have any audio.
+
+* BUG #22: CommandShip stops moving when the InvaderFormation lands, but the CommandShip audio continues to play.  
+
+Should the CommandShip still move off the screen (as it does when the player dies) or, should it stop, but have the audio stop also.
+
+* BUG #20: InvaderFormation continues to play marching sound effect even when the player has been hit/destroyed.
+
+* BUG #21: InvaderFormation continues to animate when the player has been hit/destroyed.
+
+* BUG #23: Stutter sound effect is too quite.  The .ogg files may need to be normalised, alternatively, consider raising the volume of this effect.
+
+
+17/07
+* BUG #16: If two invaders get hit, seemingly at the same time, two destroyed sound fxs play almost simultaneously, this creates the effect of the volume being louder.
+
+Ideal solution here is to prevent two invaders being hit at the same time.  Check to see if the collision returns an array of items that it has hit, if so, effect just one.
+
+
+20/07
+* BUG #15: If the CommandShip appears near the end of a wave and is destroyed, the abduction sequence begins with the CommandShip in its dying animation and subsequently it disappears.
+
+Need to consider either preventing the CommandShip from spawning when there are only a few invaders left, or left the CommandShip fly off the screen before it comes back for the abduction.
+
+* BUG #17: CommandShip should spawn only once per wave.  Once the 7th column of invaders has left the MotherShip it seems to appear.  Remove random spawning ranges.
+  
+This may actually help to resolve Bug #15.
+
 			   
-	22/07
-	* BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.  This is because the count of invaders is still > 1 because
-			   the previously hit invaders animation hasn't finished which calls the code to reduce the count.
+22/07
+* BUG #18: The last invader doesn't stop moving if another invader was killed very quickly before it.
+  
+This is because the count of invaders is still > 1 because the previously hit invaders animation hasn't finished which calls the code to reduce the count.
 	
-	25/07
-	* BUG #26: When launching, the invaders fire through the MotherShip
 
-	* BUG #27: The marching sound effect for the invaders begins too early, before the player sees the invaders emerging from the MotherShip
+25/07
+* BUG #28: When launching, the invaders fire through the MotherShip
 
-	* BUG #19: When the first column of invaders are destroyed quickly, the InvaderFormation changes direction and disappears off the screen.
-			   When the first column of invaders are destroyed very quickly, as they are emerging from the mothership, the BoxCollider2D on the InvaderFormation resizes
-			   and is no longer passed the first PlaySpaceBoundary, when it makes contact, the code then triggers the reverse direction call.
-			   May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
-			   This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before
-			   they made contact with the first PlaySpaceBoundary.
+* BUG #27: The marching sound effect for the invaders begins too early, before the player sees the invaders emerging from the MotherShip
 
-	* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
-			   Once the player is respawned, these projectiles are cleared from the screen.
+* BUG #19: When the first column of invaders are destroyed quickly, the InvaderFormation changes direction and disappears off the screen.
+
+When the first column of invaders are destroyed very quickly, as they are emerging from the mothership, the BoxCollider2D on the InvaderFormation resizes and is no longer passed the first PlaySpaceBoundary, when it makes contact, the code then triggers the reverse direction call.
+
+May need to consider a method of not activating the left PlaySpaceBoundary until all of the invaders have spawned/emerged.
+
+This issue wasn't detected previously when the InvaderFormation velocity was higher as it was not possible to destroy all of the first column prior before they made contact with the first PlaySpaceBoundary.
+
+* BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
+Once the player is respawned, these projectiles are cleared from the screen.
+
