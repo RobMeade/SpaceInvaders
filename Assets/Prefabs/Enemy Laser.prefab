@@ -92,5 +92,15 @@ PrefabInstance:
       propertyPath: _damage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8831076408934976776, guid: 77fd57309bf5b1a469d9f94bf90af59d,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8831076408934976776, guid: 77fd57309bf5b1a469d9f94bf90af59d,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0625
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77fd57309bf5b1a469d9f94bf90af59d, type: 3}
