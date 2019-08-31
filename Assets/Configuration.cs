@@ -126,6 +126,12 @@ public class Configuration : ScriptableObject
     [SerializeField]
     private float _copyrightTextScrollSpeed = 2f;
 
+    [SerializeField]
+    private float _uiButtonPressAudioMinimumPitchDelta = -0.1f;
+
+    [SerializeField]
+    private float _uiButtonPressAudioMaximumPitchDelta = 0.1f;
+
 
     // player
     public Vector2 PlayerSpawnPosition
@@ -321,5 +327,15 @@ public class Configuration : ScriptableObject
     public float CopyrightTextScrollSpeed
     {
         get { return _copyrightTextScrollSpeed; }
+    }
+
+    public float UIButtonPressAudioMinimumPitchDelta
+    {
+        get { return _uiButtonPressAudioMinimumPitchDelta; }
+    }
+
+    public float UIButtonPressAudioMaximumPitchDelta
+    {
+        get { return _uiButtonPressAudioMaximumPitchDelta; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 using TMPro;
 using UnityEngine;
@@ -29,6 +30,10 @@ public class UIController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _lives = null;
 
+    [SerializeField]
+    private AudioClip _buttonPressSFX = null;
+
+    private AudioSource _audioSource = null;
     private Vector3 _copyrightStartPosition;
 
 
@@ -50,6 +55,8 @@ public class UIController : MonoBehaviour
         ShowGameCanvas(this, EventArgs.Empty);
         HideTitleCanvas(this, EventArgs.Empty);
 
+        PlayButtonPressSFX();
+
         if (OnOptionButtonClicked != null)
         {
             OnOptionButtonClicked(this, EventArgs.Empty);
@@ -60,6 +67,8 @@ public class UIController : MonoBehaviour
     {
         ShowGameCanvas(this, EventArgs.Empty);
         HideTitleCanvas(this, EventArgs.Empty);
+
+        PlayButtonPressSFX();
 
         if (OnSelectButtonClicked != null)
         {
@@ -88,6 +97,8 @@ public class UIController : MonoBehaviour
         HideMenuCanvas(this, EventArgs.Empty);
         HideTitleCanvas(this, EventArgs.Empty);
 
+        PlayButtonPressSFX();
+
         if (OnStartButtonClicked != null)
         {
             OnStartButtonClicked(this, EventArgs.Empty);
@@ -96,10 +107,29 @@ public class UIController : MonoBehaviour
 
     public void SystemResetButtonClicked()
     {
+        PlayButtonPressSFX();
+
+        StartCoroutine(DelaySystemReset(_buttonPressSFX.length));
+    }
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    private IEnumerator DelaySystemReset(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
         if (OnSystemResetButtonClicked != null)
         {
             OnSystemResetButtonClicked(this, EventArgs.Empty);
         }
+    }
+
+    private float GetButtonPressRandomPitchValue()
+    {
+        return UnityEngine.Random.Range(_configuration.UIButtonPressAudioMinimumPitchDelta, _configuration.UIButtonPressAudioMaximumPitchDelta) + 1;
     }
 
     private void HideMenuCanvas(object sender, EventArgs e)
@@ -128,6 +158,17 @@ public class UIController : MonoBehaviour
     {
         GameController.OnGameOver += ShowMenuCanvas;
         GameController.OnInvaderFormationLanded += ShowMenuCanvas;
+    }
+
+    private void PlayButtonPressSFX()
+    {
+        if (_buttonPressSFX)
+        {
+            _audioSource.clip = _buttonPressSFX;
+            _audioSource.pitch = GetButtonPressRandomPitchValue();
+
+            _audioSource.Play();
+        }
     }
 
     private void ScrollCopyrightText()

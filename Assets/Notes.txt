@@ -24,12 +24,6 @@ It looks like this may only be until the InvaderFormation descends, after their 
 Needs testing
 
 
-Features (Summary):
-
-* Audio
-  - menu button click/tap
-
-
 BUGS:
 
 
@@ -120,7 +114,7 @@ Need to research speed increases - consider recording video and using playback s
 
 
 10/07
-* FEATURE #9: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
+* FEATURE #10: Invader animation speed - increases with the movement speed, same steps, 24, 12, and 1
 
 * FEATURE #7: Command ship explosion - slightly different sound
 
@@ -181,3 +175,6 @@ This issue wasn't detected previously when the InvaderFormation velocity was hig
 * BUG #25: Wave 8 completion, the player loses the ability to move/shoot, any projectiles already shot are frozen on the screen but do not cause collisions with the CommandShip.  
 Once the player is respawned, these projectiles are cleared from the screen.
 
+
+31/08
+* FEATURE #11 - Menu button click/tap sound effect
