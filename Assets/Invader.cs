@@ -13,6 +13,7 @@ public class Invader : MonoBehaviour
     private AudioSource _audioSource = null;
     private AnimationEventController _animationEventController = null;
 
+    private Color32 _color = default;
     private bool _hasLaunched = false;
 
 
@@ -26,6 +27,11 @@ public class Invader : MonoBehaviour
     public bool HasLaunched
     {
         get { return _hasLaunched; }
+    }
+
+    public Color32 Color
+    {
+        get { return _color; }
     }
 
 
@@ -43,6 +49,8 @@ public class Invader : MonoBehaviour
         _boxCollider2D = GetComponent<BoxCollider2D>();
         _audioSource = GetComponent<AudioSource>();
         _animationEventController = GetComponent<AnimationEventController>();
+
+        _color = _spriteRenderer.color;
     }
 
     private void Die()

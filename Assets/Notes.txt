@@ -8,13 +8,6 @@ RESEARCH:
 * Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
 
 
-12/05
-* Space invaders fire only from the column closest to the player, in most cases the one above the player.  
-
-If the player is off to the extreme left or right then the left/right most column will fire.  
-Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the invader in the third row will be the invader that fires.
-
-
 30/07
 
 * After the rocket ship lands, the bottom two rows of invaders do not shoot (only tested on game 1)
@@ -178,3 +171,13 @@ Once the player is respawned, these projectiles are cleared from the screen.
 
 31/08
 * FEATURE #11 - Menu button click/tap sound effect
+
+
+19/09
+
+* FEATURE #12 - Invader Firing Mechanic - Closest Invader To Player
+
+Space invaders fire only from the column closest to the player, in most cases the one above the player.  
+
+If the player is off to the extreme left or right then the left/right most column will fire.  
+Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the invader in the third row will be the invader that fires.

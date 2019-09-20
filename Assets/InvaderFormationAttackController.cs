@@ -13,6 +13,8 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private InvaderFormation _invaderFormation = null;
 
+    private GameObject _target = null;
+
     private bool _canAttack = false;
     private bool _canReArm = false;
     private bool _reArmed = false;
@@ -23,33 +25,64 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private void Attack()
     {
-        Invader invader;
+        bool targetWithinRange = false;
 
-        if (_invaderFormation.Invaders.Count > 0)
+        foreach (InvaderFormationColumn column in _invaderFormation.Columns)
         {
-            int invaderIndex = UnityEngine.Random.Range(0, _invaderFormation.Invaders.Count - 1);
+            Invader invader = column.ClosestInvaderToLunarSurface;
 
-            invader = _invaderFormation.Invaders[invaderIndex];
-
-            if (invader & invader.HasLaunched)
+            if (invader)
             {
-                _canReArm = false;
-                _reArmed = false;
+                float lowerColumnBoundsX = invader.transform.position.x - 0.5f;
+                float upperColumnBoundsX = invader.transform.position.x + 0.5f;
 
-                Color invaderColor = invader.GetComponent<SpriteRenderer>().color;
+                if (_target.transform.position.x >= lowerColumnBoundsX && _target.transform.position.x <= upperColumnBoundsX)
+                {
+                    LaunchProjectile(invader);
 
-                GameObject projectile = Instantiate(_projectilePrefab, invader.transform.position, Quaternion.identity);
+                    targetWithinRange = true;
 
-                projectile.GetComponent<Projectile>().OnDestroyed += ProjectileDestroyed;
-                projectile.GetComponent<Projectile>().Velocity = _configuration.InvaderProjectileVelocity;
-                projectile.GetComponent<SpriteRenderer>().color = new Color(invaderColor.r, invaderColor.g, invaderColor.b, invaderColor.a);
+                    break;
+                }
             }
+        }
+
+        if (!targetWithinRange)
+        {
+            Invader invader = GetClosestInvadeToLunarSurfaceFromRandomColumn();
+
+            LaunchProjectile(invader);
         }
     }
 
     private void Awake()
     {
         _invaderFormation = GetComponent<InvaderFormation>();
+
+        // TODO: Temp - get reference to player - don't like this as its knows about the "player" etc
+        _target = GameObject.FindObjectOfType<Player>().gameObject;
+    }
+
+    private Invader GetClosestInvadeToLunarSurfaceFromRandomColumn()
+    {
+        int columnIndex = UnityEngine.Random.Range(0, (_invaderFormation.Columns.Count - 1));
+
+        return _invaderFormation.Columns[columnIndex].ClosestInvaderToLunarSurface;
+    }
+
+    private void LaunchProjectile(Invader invader)
+    {
+        if (invader && invader.HasLaunched)
+        {
+            _canReArm = false;
+            _reArmed = false;
+
+            GameObject projectile = Instantiate(_projectilePrefab, invader.transform.position, Quaternion.identity);
+
+            projectile.GetComponent<Projectile>().OnDestroyed += ProjectileDestroyed;
+            projectile.GetComponent<Projectile>().Velocity = _configuration.InvaderProjectileVelocity;
+            projectile.GetComponent<SpriteRenderer>().color = invader.Color;
+        }
     }
 
     private void OnDisable()

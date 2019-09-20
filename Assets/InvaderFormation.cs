@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class InvaderFormation : MonoBehaviour
 {
+    private List<InvaderFormationColumn> _columns = new List<InvaderFormationColumn>();
     private List<Invader> _invaders = new List<Invader>();
     private int _invadersPerWave = 0;
     private int _invadersHit = 0;
@@ -33,6 +34,11 @@ public class InvaderFormation : MonoBehaviour
     public static event ResumeAttackEventHandler OnResumeAttack;
 
 
+    public List<InvaderFormationColumn> Columns
+    {
+        get { return _columns; }
+    }
+
     public List<Invader> Invaders
     {
         get { return _invaders; }
@@ -41,6 +47,7 @@ public class InvaderFormation : MonoBehaviour
 
     private void Awake()
     {
+        _columns = GetComponentsInChildren<InvaderFormationColumn>().ToList<InvaderFormationColumn>();
         _invaders = GetComponentsInChildren<Invader>().ToList<Invader>();
         _invadersPerWave = _invaders.Count();
     }
