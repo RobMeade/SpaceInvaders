@@ -69,7 +69,7 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private Invader GetClosestInvadeToLunarSurfaceFromRandomColumn()
     {
-        int columnIndex = UnityEngine.Random.Range(0, (_invaderFormation.Columns.Count - 1));
+        int columnIndex = UnityEngine.Random.Range(0, _invaderFormation.Columns.Count);
 
         return _invaderFormation.Columns[columnIndex].ClosestInvaderToLunarSurface;
     }
