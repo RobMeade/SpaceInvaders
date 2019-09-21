@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -8,6 +9,9 @@ using UnityEngine;
 [RequireComponent(typeof(AnimationEventController))]
 public class Invader : MonoBehaviour
 {
+    [SerializeField]
+    private List<GameObject> _laserCannons = null;
+
     private SpriteRenderer _spriteRenderer = null;
     private BoxCollider2D _boxCollider2D = null;
     private AudioSource _audioSource = null;
@@ -24,14 +28,19 @@ public class Invader : MonoBehaviour
     public event HitEventHandler OnHit;
 
 
+    public Color32 Color
+    {
+        get { return _color; }
+    }
+
     public bool HasLaunched
     {
         get { return _hasLaunched; }
     }
 
-    public Color32 Color
+    public List<GameObject> LaserCannons
     {
-        get { return _color; }
+        get { return _laserCannons; }
     }
 
 

@@ -57,12 +57,6 @@ public class Configuration : ScriptableObject
 
     [Header("Invader")]
     [SerializeField]
-    private float _invaderMinimumReArmDelay = 1f;
-
-    [SerializeField]
-    private float _invaderMaximumReArmDelay = 1.5f;
-
-    [SerializeField]
     private Vector2 _invaderProjectileVelocity = new Vector2(0f, -1f);
 
     [SerializeField]
@@ -218,16 +212,6 @@ public class Configuration : ScriptableObject
 
 
     // invader
-    public float InvaderMinimumReArmDelay
-    {
-        get { return _invaderMinimumReArmDelay; }
-    }
-
-    public float InvaderMaximumReArmDelay
-    {
-        get { return _invaderMaximumReArmDelay; }
-    }
-
     public Vector2 InvaderProjectileVelocity
     {
         get { return _invaderProjectileVelocity; }

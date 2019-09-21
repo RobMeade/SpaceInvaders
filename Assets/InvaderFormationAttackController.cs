@@ -16,29 +16,27 @@ public class InvaderFormationAttackController : MonoBehaviour
     private GameObject _target = null;
 
     private bool _canAttack = false;
-    private bool _canReArm = false;
     private bool _reArmed = false;
-
-    private float _timeToReArm = 0f;
-    private float _fireRate = 0f;
 
 
     private void Attack()
     {
         bool targetWithinRange = false;
+        int laserCannonIndex;
 
         foreach (InvaderFormationColumn column in _invaderFormation.Columns)
         {
             Invader invader = column.ClosestInvaderToLunarSurface;
 
-            if (invader)
+            if (invader && invader.HasLaunched)
             {
                 float lowerColumnBoundsX = invader.transform.position.x - 0.5f;
                 float upperColumnBoundsX = invader.transform.position.x + 0.5f;
 
                 if (_target.transform.position.x >= lowerColumnBoundsX && _target.transform.position.x <= upperColumnBoundsX)
                 {
-                    LaunchProjectile(invader);
+                    laserCannonIndex = UnityEngine.Random.Range(0, invader.LaserCannons.Count);
+                    LaunchProjectile(invader.LaserCannons[laserCannonIndex].transform.position, _configuration.InvaderProjectileVelocity, invader.Color);
 
                     targetWithinRange = true;
 
@@ -51,7 +49,11 @@ public class InvaderFormationAttackController : MonoBehaviour
         {
             Invader invader = GetClosestInvadeToLunarSurfaceFromRandomColumn();
 
-            LaunchProjectile(invader);
+            if (invader && invader.HasLaunched)
+            {
+                laserCannonIndex = UnityEngine.Random.Range(0, invader.LaserCannons.Count);
+                LaunchProjectile(invader.LaserCannons[laserCannonIndex].transform.position, _configuration.InvaderProjectileVelocity, invader.Color);
+            }
         }
     }
 
@@ -61,6 +63,8 @@ public class InvaderFormationAttackController : MonoBehaviour
 
         // TODO: Temp - get reference to player - don't like this as its knows about the "player" etc
         _target = GameObject.FindObjectOfType<Player>().gameObject;
+
+        _reArmed = true;
     }
 
     private Invader GetClosestInvadeToLunarSurfaceFromRandomColumn()
@@ -70,19 +74,15 @@ public class InvaderFormationAttackController : MonoBehaviour
         return _invaderFormation.Columns[columnIndex].ClosestInvaderToLunarSurface;
     }
 
-    private void LaunchProjectile(Invader invader)
+    private void LaunchProjectile(Vector2 launchPosition, Vector2 launchVelocity, Color32 projectileColor)
     {
-        if (invader && invader.HasLaunched)
-        {
-            _canReArm = false;
-            _reArmed = false;
+        _reArmed = false;
 
-            GameObject projectile = Instantiate(_projectilePrefab, invader.transform.position, Quaternion.identity);
+        GameObject projectile = Instantiate(_projectilePrefab, launchPosition, Quaternion.identity);
 
-            projectile.GetComponent<Projectile>().OnDestroyed += ProjectileDestroyed;
-            projectile.GetComponent<Projectile>().Velocity = _configuration.InvaderProjectileVelocity;
-            projectile.GetComponent<SpriteRenderer>().color = invader.Color;
-        }
+        projectile.GetComponent<Projectile>().OnDestroyed += ProjectileDestroyed;
+        projectile.GetComponent<Projectile>().Velocity = launchVelocity;
+        projectile.GetComponent<SpriteRenderer>().color = projectileColor;
     }
 
     private void OnDisable()
@@ -105,20 +105,11 @@ public class InvaderFormationAttackController : MonoBehaviour
         InvaderFormationMovementController.OnLaunch += StartAttacking;
     }
 
-    private void PrepareToAttack()
-    {
-        _fireRate = UnityEngine.Random.Range(_configuration.InvaderMinimumReArmDelay, _configuration.InvaderMaximumReArmDelay);
-
-        _timeToReArm = Time.time + _fireRate;
-    }
-
     private void ProjectileDestroyed(object sender, ProjectileDestroyedEventArgs e)
     {
-        _canReArm = true;
+        _reArmed = true;
 
         e.Projectile.OnDestroyed -= ProjectileDestroyed;
-
-        PrepareToAttack();
     }
 
     private void StartAttacking()
@@ -129,9 +120,6 @@ public class InvaderFormationAttackController : MonoBehaviour
     private void StartAttacking(object sender, EventArgs e)
     {
         _canAttack = true;
-        _canReArm = true;
-
-        PrepareToAttack();
     }
 
     private void StopAttacking(object sender, EventArgs e)
@@ -141,11 +129,6 @@ public class InvaderFormationAttackController : MonoBehaviour
 
     private void Update()
     {
-        if (_canAttack && _canReArm && Time.time > _timeToReArm)
-        {
-            _reArmed = true;
-        }
-
         if (_canAttack && _reArmed && _invaderFormation.Invaders.Count > 0)
         {
             Attack();

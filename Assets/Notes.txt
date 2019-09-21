@@ -4,9 +4,6 @@ Shows two player text and selected player indication: https://www.youtube.com/wa
 
 RESEARCH:
 
-09/05
-* Space invaders firing positions - bottom row appear to fire from left, middle and right.  Top row only from centre.
-
 
 30/07
 
@@ -181,3 +178,10 @@ Space invaders fire only from the column closest to the player, in most cases th
 
 If the player is off to the extreme left or right then the left/right most column will fire.  
 Additionally, it's the closest invader that will fire, so if the invaders in the bottom two rows have been destroyed, the invader in the third row will be the invader that fires.
+
+
+21/09
+
+* FEATURE #13 - Invader Firing Mechanic - Multiple Projectile Spawn Positions
+
+Space invaders firing positions, left, centre and right on each invader.  Randomly select.
